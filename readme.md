@@ -6,4 +6,4 @@ They provide the option of embedding their forecast on third-party sites, but on
 crappy flash widget.
 
 This class scraps the content of said widget's source of data and returns an array with the 
-forecast for the next 5 days.
+forecast for the next 4 days.
