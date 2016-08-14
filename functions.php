@@ -1,7 +1,6 @@
 <?php
-
 /* 
- * just a cache thing, cache is always a good thing
+ * Just a cache functionality for the sake of the example
 */
 
 function getCacheName($citiesIds) 

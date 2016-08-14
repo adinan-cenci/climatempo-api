@@ -79,9 +79,9 @@ class ClimaTempo
 		$ch = curl_init();		
 		curl_setopt ($ch, CURLOPT_URL, 'http://selos.climatempo.com.br/selos/selo.php?CODCIDADE='.implode(',', $citiesIds));
 		curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
-		$conteudo = curl_exec($ch);
+		$content = curl_exec($ch);
 		curl_close($ch);
 
-		return $conteudo;
+		return $content;
 	}
 }

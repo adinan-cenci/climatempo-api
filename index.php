@@ -47,22 +47,24 @@
 <body>	
 	<?php
 
+	/**
+	 * Example of usage
+	 */
+
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
 
-	require 'functions.php';
+	require 'functions.php';//cache functionality, just for this example
 	require 'ClimaTempo.php';
 
 	$citiesIds = array('558'/*São paulo*/, '377'/*Florianópolis*/);
-	$forecast = getCache($citiesIds);
 
+	$forecast = getCache($citiesIds);
 	if(!$forecast) {		
 		$climatempo = new ClimaTempo($citiesIds);
 		$forecast = $climatempo->fetch();
 		setCache($citiesIds, $forecast);
 	}
-
-	
 
 	$icons = array(
 		1 => 'sun', 
