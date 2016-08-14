@@ -32,8 +32,8 @@ class ClimaTempo
 		 *		...
 		*/
 
-		$doom = new SimpleXMLElement($xml);
-		$children = $doom->children();
+		$dom = new SimpleXMLElement($xml);
+		$children = $dom->children();
 		$l = count($children);
 
 		$cyties = array();
@@ -70,7 +70,7 @@ class ClimaTempo
 	{
 		preg_match('/^([0-9]{2})\/([0-9]{2})/', $date, $matches);
 		$year = date('Y');
-		return mktime (0, 0, 0, $matches[2], $matches[1], $year);
+		return mktime(0, 0, 0, $matches[2], $matches[1], $year);
 	}
 
 
