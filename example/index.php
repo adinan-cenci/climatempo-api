@@ -54,17 +54,13 @@
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
 
-	require 'functions.php';//cache functionality, just for this example
-	require 'ClimaTempo.php';
+	require '../ClimaTempoScraper.php';
 
 	$citiesIds = array('558'/*São paulo*/, '377'/*Florianópolis*/);
 
-	$forecast = getCache($citiesIds);
-	if(!$forecast) {		
-		$climatempo = new ClimaTempo($citiesIds);
-		$forecast = $climatempo->fetch();
-		setCache($citiesIds, $forecast);
-	}
+	$climatempo = new ClimaTempoScraper($citiesIds);
+	$forecast = $climatempo->fetch();
+	
 
 	$icons = array(
 		1 => 'sun', 
@@ -78,6 +74,10 @@
 		'fog'
 	);
 	?>
+
+	<p>
+		Here is the forecast for the cities of Florianópolis and São Paulo:
+	</p>
 
 	<table>
 	<tr>
@@ -94,30 +94,14 @@
 	foreach ($forecast as $cityName => $daysOfTheWeek) {
 		foreach ($daysOfTheWeek as $day) {?>
 			<tr>
-				<th>
-					<?php echo $cityName;?>
-				</th>
-				<td>
-					<?php echo date('Y-m-d', $day['date']);?>
-				</td>				
-				<td>
-					<?php echo $day['low'];?>
-				</td>
-				<td>
-					<?php echo $day['high'];?>
-				</td>
-				<td>
-					<?php echo $day['prob'];?>
-				</td>
-				<td>
-					<?php echo $day['mm'];?>
-				</td>
-				<td>
-					<?php echo $icons[$day['icon']];?>
-				</td>
-				<td>
-					<?php echo $day['phrase'];?>
-				</td>
+				<th> <?php echo $cityName;?> </th>
+				<td> <?php echo date('Y-m-d', $day['date']);?> </td>				
+				<td> <?php echo $day['low'];?> </td>
+				<td> <?php echo $day['high'];?> </td>
+				<td> <?php echo $day['prob'];?> </td>
+				<td> <?php echo $day['mm'];?> </td>
+				<td> <?php echo $icons[$day['icon']];?> </td>
+				<td> <?php echo $day['phrase'];?> </td>
 			</tr>
 		<?php
 		}
