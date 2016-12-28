@@ -2,7 +2,7 @@
 /**
  * Clima Tempo Scraper
  *
- * A web scrapper written in PHP
+ * A web scraper written in PHP
  *
  * This content is released under the MIT License (MIT)
  *
