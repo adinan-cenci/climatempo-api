@@ -53,7 +53,6 @@ class ClimaTempo
 		'snow-storm', 
 		'fog'
 	);
-
 	
 
 	/**
