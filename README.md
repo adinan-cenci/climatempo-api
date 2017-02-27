@@ -1,42 +1,59 @@
 
-# Clima Tempo Scraper
+# Clima Tempo API
 
-*Read this in other languages: [Português](README.pt.md)
+*Read this in other languages: [English](README.en.md)
 
-[Climatempo](http://www.climatempo.com.br) is a brazilian online weather forecast service.
-They provide the option of embedding their forecast on third-party sites, but only through a flash widget.
+[Climatempo](http://www.climatempo.com.br) é um serviço de previsão do tempo para cidades brazileiras.
+Eles dão a opção de embutir suas previsões em sites de terceiros, mas apenas através de um widget feito em flash.
 
-This class scraps the content of said widget's source of data and returns an array with the forecast for the next 4 days.
+Essa biblioteca lê a fonte de dados do dito widget e retorna a previsão do tempo para os próximos 4 dias.
 
-## How can I figure out the ID for a especific city?
 
-Unfortunately climatempo uses their own system, in order to figure out the id for a specific city, you will need to dig around their webpage.
-Here is a list of the brazilian capitals:
+## Como usar
 
-- 6 Rio Branco - Acre
-- 8 Maceió - Amazonas
-- 25 Manaus - Macapá
-- 39 Macapá - Amapá
-- 56 Salvador - Bahia
-- 60 Fortaleza - Ceará
-- 61 Brasília - Distrito Federal
-- 84 Vitórioa - Espírito Santo
-- 88 Goiânia - Goías
-- 94 São Luís - Maranhão
-- 107 Belo Horizonte - Minas Gerais
-- 212 Campo Grande - Mato Grosso do Sul
-- 218 Cuiabá - Mato Grosso
-- 232 Belém - Pará
-- 259 Recife - Pernambuco
-- 256 João Pessoa - Paraíba
-- 264 Teresinha - Piauí
-- 271 Curitiba - Paraná
-- 321 Rio de Janeiro - Rio de Janeiro
-- 334 Natal - Rio Grande do Norte
-- 343 Porto Velho - Rondônia
-- 347 Boa Vista - Roraima
-- 363 Porto Alegre - Rio Grande do Sul
-- 377 Florianópolis - Santa Catarina
-- 384 Aracaju - Serjipe
-- 558 São Paulo - São Paulo
-- 593 Palmas - Tocantins
+Digamos que nós queremos a previsão para São Paulo - SP e Florianópolis - SC.  
+Nós vamos precisar das ids para essas cidades:
+
+```php
+
+$ids = array('558'/*São paulo*/, '377'/*Florianópolis*/);
+
+$climatempo = new ClimaTempo\ClimaTempo($ids);
+$previsao = $climatempo->fetch();
+
+foreach ($previsao as $nomeDaCidade => $diasDaSemana) {
+	foreach ($diasDaSemana as $dia) {
+		echo '
+		Cidade: <b>'.$nomeDaCidade.' ('.date('Y-m-d', $dia['date']).')</b>: <br>
+		Temp. mínima: '.$dia['low'].'°C <br>
+		Temp. máxima: '.$dia['high'].'°C <br>
+		Probal. de precipitação: '.$dia['pop'].'% <br>
+		Precipitação: '.$dia['mm'].'mm <br>
+		Frase: '.$dia['phrase'].' <br>
+		Icone: '.$dia['icon'].'<hr>';
+	}
+}
+
+```
+
+## Como descobrir o ID para uma cidade em específico?
+
+Infelizmente climatempo usa seu próprio sistema, cada cidade brazileira tem seu próprio ID.  
+Mas você pode facilmente usar a classe Search.
+
+Digamos que nós queremos a previsão para Rio de Janeiro - RJ:
+
+```php
+
+$rio 		= ClimaTempo\Search::find('rio de janeiro')[0];
+$previsao 	= $rio->today();
+
+echo '
+Temp. mínima: '.$previsao['low'].'°C<br>
+Temp. máxima: '.$previsao['high'].'°C<br>
+Probal. de precipitação: '.$previsao['pop'].'%<br>
+Precipitação: '.$previsao['mm'].'mm<br>
+Frase: '.$previsao['phrase'].'<br>';
+Icone: '.$previsao['icon'];
+
+```

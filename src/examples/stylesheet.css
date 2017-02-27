@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700');
+
+* {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+body {
+	padding: 20px;
+	margin: 0px;
+	font-family: 'Roboto', 'Ubuntu', Arial;
+	font-size: 14px;
+	line-height: 1.3em;
+
+	background-color: #FAFAFA;
+}
+
+table {
+	border-collapse: collapse;
+	border: solid 1px #e6e6e6;
+}
+
+table {
+	color: #666;
+	background-color: #fff
+}
+	td, th {
+		padding: 10px;
+	}
+
+	th {
+		color: #000;
+		background-color: #e6e6e6;
+	}
+
+	td {
+		background-color: #FFFFFF;
+	}
+
+
+	.icon {
+		width: 35px;
+	}
