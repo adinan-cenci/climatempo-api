@@ -53,7 +53,7 @@ Temp. mínima: '.$previsao['low'].'°C<br>
 Temp. máxima: '.$previsao['high'].'°C<br>
 Probal. de precipitação: '.$previsao['pop'].'%<br>
 Precipitação: '.$previsao['mm'].'mm<br>
-Frase: '.$previsao['phrase'].'<br>';
+Frase: '.$previsao['phrase'].'<br>
 Icone: '.$previsao['icon'];
 
 ```

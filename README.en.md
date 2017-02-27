@@ -53,7 +53,7 @@ Min. temperature: '.$forecast['low'].'°C<br>
 Max. temperature: '.$forecast['high'].'°C<br>
 Probal. of precipitation: '.$forecast['pop'].'%<br>
 Precipitation: '.$forecast['mm'].'mm<br>
-Phrase: '.$forecast['phrase'].'<br>';
+Phrase: '.$forecast['phrase'].'<br>
 Icon: '.$forecast['icon'];
 
 ```
