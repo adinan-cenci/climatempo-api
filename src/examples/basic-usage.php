@@ -12,7 +12,7 @@
 	/**
 	 * # Example of usage
 	 * 
-	 * The class ClimaTempoScraper makes the requisitions to the
+	 * The class ClimaTempo makes the requisitions to the
 	 * climatempo server, reads the XML and returns an array
 	 * 
 	 */
