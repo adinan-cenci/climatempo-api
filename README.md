@@ -38,7 +38,7 @@ foreach ($previsao as $nomeDaCidade => $diasDaSemana) {
 
 ## Como descobrir o ID para uma cidade em específico?
 
-Infelizmente climatempo usa seu próprio sistema, cada cidade brazileira tem seu próprio ID.  
+Infelizmente climatempo usa seu próprio sistema, cada cidade brasileira tem seu próprio ID.  
 Mas você pode facilmente usar a classe Search.
 
 Digamos que nós queremos a previsão para Rio de Janeiro - RJ:
