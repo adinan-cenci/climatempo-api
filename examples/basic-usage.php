@@ -22,13 +22,13 @@
 
 	/*-----------------------------*/
 
-	require '../ClimaTempo.php';
-	use ClimaTempo as CT;
+	require '../src/Climatempo.php';
+	use Climatempo as CT;
 
 	/*-----------------------------*/
 	
 	$citiesIds = array('558'/*São paulo*/, '377'/*Florianópolis*/);
-	$climatempo = new CT\ClimaTempo($citiesIds);
+	$climatempo = new CT\Climatempo($citiesIds);
 	$forecast = $climatempo->fetch();
 
 	/*-----------------------------*/

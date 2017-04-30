@@ -32,9 +32,9 @@
  * @link	https://github.com/AdinanCenci/climatempo-api
  */
 
-namespace ClimaTempo;
+namespace Climatempo;
 
-class ClimaTempo
+class Climatempo
 {
 	/**
 	 * array containing the ids for the desired cities
@@ -150,7 +150,7 @@ class ClimaTempo
 
 	/**
 	 * Makes the request to climatempo.com.br
-	 * @return string xml
+	 * @return string $content xml data
 	 */
 	protected function request() 
 	{

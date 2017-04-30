@@ -19,10 +19,11 @@
 
 	/*-----------------------------*/
 
-	require '../ClimaTempo.php';
-	require '../Search.php';
-	require '../City.php';
-	use ClimaTempo as CT;
+	require '../src/Climatempo.php';
+	require '../src/Search.php';
+	require '../src/City.php';
+	
+	use Climatempo as CT;
 
 	/*-----------------------------*/
 	

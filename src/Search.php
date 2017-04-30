@@ -1,6 +1,6 @@
 <?php
 
-namespace ClimaTempo;
+namespace Climatempo;
 
 abstract class Search {
 
@@ -85,7 +85,7 @@ abstract class Search {
 
 	protected static function newCity($id, $name, $uf) 
 	{
-		return new \ClimaTempo\City($id, $name, $uf);
+		return new City($id, $name, $uf);
 	}
 
 	/**

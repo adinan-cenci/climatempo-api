@@ -1,5 +1,5 @@
 <?php
-namespace ClimaTempo;
+namespace Climatempo;
 
 class City 
 {
@@ -20,7 +20,7 @@ class City
 	{
 		if($this->forecast) {return true;}
 
-		$scraper = new ClimaTempo($this->id);
+		$scraper = new Climatempo($this->id);
 		$forecast = $scraper->fetch();
 
 		$this->forecast = reset($forecast);
