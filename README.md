@@ -1,5 +1,5 @@
 
-# Clima Tempo API
+# Climatempo API
 
 *Read this in other languages: [English](README.en.md)
 

@@ -1,9 +1,9 @@
 
-# Clima Tempo API
+# Climatempo API
 
 *Read this in other languages: [Português](README.md)
 
-[Climatempo](http://www.climatempo.com.br) is a brazilian online weather forecast service for brazilian cities.
+[Climatempo](http://www.climatempo.com.br) is a brasilian online weather forecast service for brazilian cities.
 They provide the option of embedding their forecast on third-party sites, but only through a flash widget.
 
 This library reads the content of said widget's source of data and returns the forecast for the next 4 days.
