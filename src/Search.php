@@ -1,6 +1,6 @@
 <?php
 
-namespace Climatempo;
+namespace AdinanCenci\Climatempo;
 
 abstract class Search {
 

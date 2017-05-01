@@ -16,9 +16,11 @@ Nós vamos precisar das ids para essas cidades:
 
 ```php
 
+use AdinanCenci\Climatempo as CT;
+
 $ids = array('558'/*São paulo*/, '377'/*Florianópolis*/);
 
-$climatempo = new Climatempo\Climatempo($ids);
+$climatempo = new CT\Climatempo($ids);
 $previsao = $climatempo->fetch();
 
 foreach ($previsao as $nomeDaCidade => $diasDaSemana) {
@@ -45,7 +47,9 @@ Digamos que nós queremos a previsão para Rio de Janeiro - RJ:
 
 ```php
 
-$rio 		= Climatempo\Search::find('rio de janeiro')[0];
+use AdinanCenci\Climatempo as CT;
+
+$rio 		= CT\Search::find('rio de janeiro')[0];
 $previsao 	= $rio->today();
 
 echo '

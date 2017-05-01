@@ -16,9 +16,11 @@ We will need the ids for this cities:
 
 ```php
 
+use AdinanCenci\Climatempo as CT;
+
 $ids = array('558'/*São paulo*/, '377'/*Florianópolis*/);
 
-$climatempo = new Climatempo\Climatempo($ids);
+$climatempo = new CT\Climatempo($ids);
 $forecast = $climatempo->fetch();
 
 foreach ($forecast as $cityName => $daysOfTheWeek) {
@@ -45,7 +47,9 @@ Let's say we want today's forecast for Rio de Janeiro - RJ:
 
 ```php
 
-$rio 		= Climatempo\Search::find('rio de janeiro')[0];
+use AdinanCenci\Climatempo as CT;
+
+$rio 		= CT\Search::find('rio de janeiro')[0];
 $forecast 	= $rio->today();
 
 echo '

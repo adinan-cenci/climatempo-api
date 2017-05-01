@@ -23,7 +23,7 @@
 	require '../src/Search.php';
 	require '../src/City.php';
 	
-	use Climatempo as CT;
+	use AdinanCenci\Climatempo as CT;
 
 	/*-----------------------------*/
 	

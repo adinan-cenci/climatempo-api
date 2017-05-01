@@ -1,5 +1,5 @@
 <?php
-namespace Climatempo;
+namespace AdinanCenci\Climatempo;
 
 class City 
 {

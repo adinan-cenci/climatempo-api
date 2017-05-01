@@ -32,7 +32,7 @@
  * @link	https://github.com/AdinanCenci/climatempo-api
  */
 
-namespace Climatempo;
+namespace AdinanCenci\Climatempo;
 
 class Climatempo
 {
