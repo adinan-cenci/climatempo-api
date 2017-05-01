@@ -3,7 +3,8 @@
 	"description": "Uma api para previsão de tempo escrita em PHP.", 
 	"type": "library", 
 	"keywords": ["api", "previsão do tempo", "weather", "forecast"], 
-	"license": "MIT", 
+	"license": "MIT",
+	"version": "0.1.0", 
 	"authors": [
 		{
 			"name": "Adinan Cenci", 
@@ -14,7 +15,7 @@
 	"repositories": [
 		{
 			"type": "vcs", 
-			"url": "https://github.com/AdinanCenci/climatempo-api"
+			"url": "https://github.com/adinan-cenci/climatempo-api"
 		}
 	], 
 	"require": {
