@@ -1,5 +1,5 @@
 {
-	"name": "AdinanCenci/climatempo-api", 
+	"name": "adinan-cenci/climatempo-api", 
 	"description": "Uma api para previsão de tempo escrita em PHP.", 
 	"type": "library", 
 	"keywords": ["api", "previsão do tempo", "weather", "forecast"], 
