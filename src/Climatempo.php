@@ -1,6 +1,6 @@
 <?php
 /**
- * Clima Tempo Api
+ * Climatempo Api
  *
  * A weather forecast api written in PHP
  *
@@ -29,7 +29,7 @@
  * @author	Adinan Cenci
  * @copyright	Copyright (c) 2016, Adinan Cenci
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	https://github.com/AdinanCenci/climatempo-api
+ * @link	https://github.com/adinan-cenci/climatempo-api
  */
 
 namespace AdinanCenci\Climatempo;
@@ -82,7 +82,7 @@ class Climatempo
 	/**
 	 * It will return a multidimensioanl array with the forecast for each city like:
 	 * city-name: [{date, low, high, prob, mm, icon, phrase}, {date, low ... ]
-	 * icon is supposed to represents a unique graphic icon to display the weather. 1: sun, 2: sun and clouds, 3: clouds, 4: sun and rain, 5: rain, 6: storm, 7: snow, 8: snow storm, 9: fog
+	 * icon is supposed to represents a unique graphic icon to display the weather.
 	 * @return array
 	 */
 	public function fetch() 
