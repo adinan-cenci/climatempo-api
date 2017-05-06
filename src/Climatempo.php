@@ -26,145 +26,145 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @author	Adinan Cenci
- * @copyright	Copyright (c) 2016, Adinan Cenci
- * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	https://github.com/adinan-cenci/climatempo-api
+ * @author  Adinan Cenci
+ * @copyright   Copyright (c) 2016, Adinan Cenci
+ * @license http://opensource.org/licenses/MIT  MIT License
+ * @link    https://github.com/adinan-cenci/climatempo-api
  */
 
 namespace AdinanCenci\Climatempo;
 
 class Climatempo
 {
-	/**
-	 * array containing the ids for the desired cities
-	 * @property array $citiesIds
-	 */
-	protected $citiesIds = array();
+    /**
+     * array containing the ids for the desired cities
+     * @property array $citiesIds
+     */
+    protected $citiesIds = array();
 
-	protected $icons = array(
-		1 => 'sun', 
-		'sun-and-clouds', 
-		'clouds', 
-		'sun-and-rain', 
-		'rain', 
-		'storm', 
-		'snow', 
-		'snow-storm', 
-		'fog'
-	);
-	
+    protected $icons = array(
+        1 => 'sun', 
+        'sun-and-clouds', 
+        'clouds', 
+        'sun-and-rain', 
+        'rain', 
+        'storm', 
+        'snow', 
+        'snow-storm', 
+        'fog'
+    );
 
-	/**
-	 * @param array|int $ids id(s) of the desired city(ies), 5 tops
-	 */
-	public function __construct($ids) 
-	{
-		$this->setIds($ids);
-	}
 
-	/**
-	 * @param array|int $ids
-	 */
-	public function setIds($ids) 
-	{
-		$this->citiesIds = is_array($ids) ? $ids : array($ids);
-	}
+    /**
+     * @param array|int $ids id(s) of the desired city(ies), 5 tops
+     */
+    public function __construct($ids) 
+    {
+        $this->setIds($ids);
+    }
 
-	/**
-	 * @param int $id
-	 */
-	public function addId($id) 
-	{
-		$this->citiesIds[] = $id;
-	}
+    /**
+     * @param array|int $ids
+     */
+    public function setIds($ids) 
+    {
+        $this->citiesIds = is_array($ids) ? $ids : array($ids);
+    }
 
-	/**
-	 * It will return a multidimensioanl array with the forecast for each city like:
-	 * city-name: [{date, low, high, prob, mm, icon, phrase}, {date, low ... ]
-	 * icon is supposed to represents a unique graphic icon to display the weather.
-	 * @return array
-	 */
-	public function fetch() 
-	{
-		$xml = $this->request();
+    /**
+     * @param int $id
+     */
+    public function addId($id) 
+    {
+        $this->citiesIds[] = $id;
+    }
 
-		/**
-		 * <selos>
-		 * 		<video>
-		 *		<parametro>
-		 *		<cidade nome="" data="" low="" hight="" prob="" mm="" ico="" frase="/>
-		 *		...
-		*/
+    /**
+     * It will return a multidimensioanl array with the forecast for each city like:
+     * city-name: [{date, low, high, prob, mm, icon, phrase}, {date, low ... ]
+     * icon is supposed to represents a unique graphic icon to display the weather.
+     * @return array
+     */
+    public function fetch() 
+    {
+        $xml = $this->request();
 
-		$xml = mb_convert_encoding($xml, 'UTF-8', 'ISO-8859-1');
-		$xml = str_replace(array("\n", "\r", "\t"), '', $xml);
-		$dom = new \SimpleXMLElement($xml);
-		$children = $dom->children();
+        /**
+         * <selos>
+         *      <video>
+         *      <parametro>
+         *      <cidade nome="" data="" low="" hight="" prob="" mm="" ico="" frase="/>
+         *      ...
+        */
 
-		$l = count($children);
+        $xml = mb_convert_encoding($xml, 'UTF-8', 'ISO-8859-1');
+        $xml = str_replace(array("\n", "\r", "\t"), '', $xml);
+        $dom = new \SimpleXMLElement($xml);
+        $children = $dom->children();
 
-		$cyties = array();
+        $l = count($children);
 
-		//ignore the first two nodes, video and parametro
-		for($n = 2; $n < $l; $n++) {
+        $cyties = array();
 
-			$indice = (string) $children[$n]['nome'];//the city's name
+        //ignore the first two nodes, video and parametro
+        for($n = 2; $n < $l; $n++) {
 
-			if(!isset($cyties[$indice])) {
-				$cyties[$indice] = array();
-			}
+            $indice = (string) $children[$n]['nome'];//the city's name
 
-			$date = (string) $children[$n]['data'];
-			$date = $this->sanitizeDate($date);
+            if(!isset($cyties[$indice])) {
+                $cyties[$indice] = array();
+            }
 
-			$icon = (int) $children[$n]['ico'];
-			$icon = $this->icons[$icon];
+            $date = (string) $children[$n]['data'];
+            $date = $this->sanitizeDate($date);
 
-			$cyties[$indice][] = array(
-				'date' 		=> $date,
-				'low' 		=> (string) $children[$n]['low'],	//lower temperature (°C)
-				'high' 		=> (string) $children[$n]['high'],	//higher temperature (°C)
-				'pop' 		=> (string) $children[$n]['prob'],	//probability of precipitation (%)
-				'mm' 		=> (string) $children[$n]['mm'],	//precipitation (mm)
-				'icon' 		=> $icon,							//graphical representation
-				'phrase' 	=> (string)	$children[$n]['frase'] 	//description
-			);
-		}
+            $icon = (int) $children[$n]['ico'];
+            $icon = $this->icons[$icon];
 
-		return $cyties;
-	}
+            $cyties[$indice][] = array(
+                'date'      => $date,
+                'low'       => (string) $children[$n]['low'],   //lower temperature (°C)
+                'high'      => (string) $children[$n]['high'],  //higher temperature (°C)
+                'pop'       => (string) $children[$n]['prob'],  //probability of precipitation (%)
+                'mm'        => (string) $children[$n]['mm'],    //precipitation (mm)
+                'icon'      => $icon,                           //graphical representation
+                'phrase'    => (string) $children[$n]['frase']  //description
+            );
+        }
 
-	/**
-	 * Sanitizes the date into a timestamp
-	 * @param string $date
-	 * @return int timestamp
-	 */
-	protected function sanitizeDate($date) 
-	{
-		//Enters: 28/12 Qua
-		preg_match('/^([0-9]{2})\/([0-9]{2})/', $date, $matches);
-		$year = date('Y');
-		return mktime(0, 0, 0, $matches[2], $matches[1], $year);
-	}
+        return $cyties;
+    }
 
-	/**
-	 * Makes the request to climatempo.com.br
-	 * @return string $content xml data
-	 */
-	protected function request() 
-	{
-		$ids = array_slice($this->citiesIds, 0, 5);
+    /**
+     * Sanitizes the date into a timestamp
+     * @param string $date
+     * @return int timestamp
+     */
+    protected function sanitizeDate($date) 
+    {
+        //Enters: 28/12 Qua
+        preg_match('/^([0-9]{2})\/([0-9]{2})/', $date, $matches);
+        $year = date('Y');
+        return mktime(0, 0, 0, $matches[2], $matches[1], $year);
+    }
 
-		$url = 'http://selos.climatempo.com.br/selos/selo.php?CODCIDADE=';
-		$url .= implode(',', $ids);
+    /**
+     * Makes the request to climatempo.com.br
+     * @return string $content xml data
+     */
+    protected function request() 
+    {
+        $ids = array_slice($this->citiesIds, 0, 5);
 
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		$content = curl_exec($ch);
-		curl_close($ch);
+        $url = 'http://selos.climatempo.com.br/selos/selo.php?CODCIDADE=';
+        $url .= implode(',', $ids);
 
-		return $content;
-	}
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $content = curl_exec($ch);
+        curl_close($ch);
+
+        return $content;
+    }
 }

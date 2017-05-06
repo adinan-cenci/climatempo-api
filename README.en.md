@@ -18,22 +18,22 @@ We will need the ids for this cities:
 
 use AdinanCenci\Climatempo as CT;
 
-$ids = array('558'/*São paulo*/, '377'/*Florianópolis*/);
+$ids        = array('558'/*São paulo*/, '377'/*Florianópolis*/);
 
 $climatempo = new CT\Climatempo($ids);
-$forecast = $climatempo->fetch();
+$forecast   = $climatempo->fetch();
 
 foreach ($forecast as $cityName => $daysOfTheWeek) {
-	foreach ($daysOfTheWeek as $day) {
-		echo '
-		City: <b>'.$cityName.' ('.date('Y-m-d', $day['date']).')</b>: <br>
-		Min. temperature: '.$day['low'].'°C <br>
-		Max. temperature: '.$day['high'].'°C <br>
-		Probal. of precipitation: '.$day['pop'].'% <br>
-		Precipitation: '.$day['mm'].'mm <br>
-		Phrase: '.$day['phrase'].' <br>
-		Icon: '.$day['icon'].'<hr>';
-	}
+    foreach ($daysOfTheWeek as $day) {
+        echo '
+        City: <b>'.$cityName.' ('.date('Y-m-d', $day['date']).')</b>: <br>
+        Min. temperature: '.$day['low'].'°C <br>
+        Max. temperature: '.$day['high'].'°C <br>
+        Probal. of precipitation: '.$day['pop'].'% <br>
+        Precipitation: '.$day['mm'].'mm <br>
+        Phrase: '.$day['phrase'].' <br>
+        Icon: '.$day['icon'].'<hr>';
+    }
 }
 
 ```
@@ -49,8 +49,8 @@ Let's say we want today's forecast for Rio de Janeiro - RJ:
 
 use AdinanCenci\Climatempo as CT;
 
-$rio 		= CT\Search::find('rio de janeiro')[0];
-$forecast 	= $rio->today();
+$rio        = CT\Search::find('rio de janeiro')[0];
+$forecast   = $rio->today();
 
 echo '
 Min. temperature: '.$forecast['low'].'°C<br>
