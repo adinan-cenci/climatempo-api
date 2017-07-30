@@ -54,13 +54,25 @@ class Climatempo
         'fog'
     );
 
+    protected $errors = array();
 
     /**
      * @param array|int $ids id(s) of the desired city(ies), 5 tops
      */
     public function __construct($ids) 
     {
-        $this->setIds($ids);
+        if (is_array($ids)) {
+            $this->setIds($ids);
+        } else {
+            $this->setIds(func_get_args());
+        }
+    }
+
+    public function __get($var) 
+    {
+        if ($var == 'errors') {
+            return $this->errors;
+        }
     }
 
     /**
@@ -80,15 +92,35 @@ class Climatempo
     }
 
     /**
-     * It will return a multidimensioanl array with the forecast for each city like:
-     * city-name: [{date, low, high, prob, mm, icon, phrase}, {date, low ... ]
-     * icon is supposed to represents a unique graphic icon to display the weather.
-     * @return array
+     * it will attempt to make a request,
+     * read the xml
+     * and return the data in array form
+     * @return array|false
      */
     public function fetch() 
     {
         $xml = $this->request();
+        if (! $xml) {
+            return false;
+        }
 
+        $dom = $this->simpleXml($xml);
+        if (! $dom) {
+            return false;
+        }
+
+        return $this->readDom($dom);
+    }
+
+    /**
+     * It will return a multidimensioanl array with the forecast for each city like:
+     * city-name: [{date, low, high, prob, mm, icon, phrase}, {date, low ... ]
+     * icon is supposed to represents a unique graphic icon to display the weather.
+     * @param SimpleXMLElement $dom
+     * @return array
+     */
+    protected function readDom($dom) 
+    {
         /**
          * <selos>
          *      <video>
@@ -97,21 +129,18 @@ class Climatempo
          *      ...
         */
 
-        $xml = mb_convert_encoding($xml, 'UTF-8', 'ISO-8859-1');
-        $xml = str_replace(array("\n", "\r", "\t"), '', $xml);
-        $dom = new \SimpleXMLElement($xml);
         $children = $dom->children();
 
         $l = count($children);
 
         $cyties = array();
 
-        //ignore the first two nodes, video and parametro
-        for($n = 2; $n < $l; $n++) {
+        // ignore the first two nodes, video and parametro
+        for ($n = 2; $n < $l; $n++) {
 
-            $indice = (string) $children[$n]['nome'];//the city's name
+            $indice = (string) $children[$n]['nome']; // the city's name
 
-            if(!isset($cyties[$indice])) {
+            if (! isset($cyties[$indice])) {
                 $cyties[$indice] = array();
             }
 
@@ -123,12 +152,12 @@ class Climatempo
 
             $cyties[$indice][] = array(
                 'date'      => $date,
-                'low'       => (string) $children[$n]['low'],   //lower temperature (°C)
-                'high'      => (string) $children[$n]['high'],  //higher temperature (°C)
-                'pop'       => (string) $children[$n]['prob'],  //probability of precipitation (%)
-                'mm'        => (string) $children[$n]['mm'],    //precipitation (mm)
-                'icon'      => $icon,                           //graphical representation
-                'phrase'    => (string) $children[$n]['frase']  //description
+                'low'       => (string) $children[$n]['low'],   // lower temperature (°C)
+                'high'      => (string) $children[$n]['high'],  // higher temperature (°C)
+                'pop'       => (string) $children[$n]['prob'],  // probability of precipitation (%)
+                'mm'        => (string) $children[$n]['mm'],    // precipitation (mm)
+                'icon'      => $icon,                           // graphical representation
+                'phrase'    => (string) $children[$n]['frase']  // description
             );
         }
 
@@ -140,17 +169,39 @@ class Climatempo
      * @param string $date
      * @return int timestamp
      */
-    protected function sanitizeDate($date) 
+    protected function sanitizeDate($date, $year = null) 
     {
-        //Enters: 28/12 Qua
-        preg_match('/^([0-9]{2})\/([0-9]{2})/', $date, $matches);
-        $year = date('Y');
+        // Expected: "28/12 Qua" (day of the month/month day)
+        preg_match('/^([0-9]{1,2})\/([0-9]{1,2})/', $date, $matches);
+        if (! $year) { $year = date('Y');}
         return mktime(0, 0, 0, $matches[2], $matches[1], $year);
     }
 
     /**
+     * Attempts to instantiate a SimpleXMLElement 
+     * out of the xml parameter
+     * @param string $xml
+     * @return SimpleXMLElement|false
+     */
+    protected function simpleXml($xml) // :SimpleXMLElement|false
+    {
+        $xml = mb_convert_encoding($xml, 'UTF-8', 'ISO-8859-1');
+        $xml = str_replace(array("\n", "\r", "\t"), '', $xml);
+
+        $dom = simplexml_load_string($xml);
+        
+        if (! $dom) {
+            // bad response, invalid xml
+            $this->errors[] = 'Problems with the request';
+            return false;
+        }
+
+        return $dom;
+    }
+
+    /**
      * Makes the request to climatempo.com.br
-     * @return string $content xml data
+     * @return string|false xml data
      */
     protected function request() 
     {
@@ -162,8 +213,15 @@ class Climatempo
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $content = curl_exec($ch);
+        $content  = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
+
+        if ($content == false or $httpCode != 200) {
+            // internet connection problem or climatempo offline
+            $this->errors[] = 'Unable to connect to climatempo.';
+            return false;
+        }
 
         return $content;
     }

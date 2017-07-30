@@ -3,56 +3,78 @@ namespace AdinanCenci\Climatempo;
 
 class City 
 {
-    public $id;
-    public $name;
-    public $uf;
+    protected $id;
+    protected $name;
+    protected $state;
 
-    protected $forecast = null;
+    protected $forecast     = null;
+    protected $requested    = false;
 
-    public function __construct($id, $name, $uf) 
+    protected $errors = array();
+
+    public function __construct($id, $name, $state) 
     {
-        $this->id   = $id;
-        $this->name = $name;
-        $this->uf   = $uf;
+        $this->id       = $id;
+        $this->name     = $name;
+        $this->state    = $state;
+    }
+
+    public function __get($var) 
+    {
+        $readOnly = array('id', 'name', 'state', 'errors');
+        if (in_array($var, $readOnly)) {
+            return $this->{$var};
+        }
+
+        switch ($var) {
+            case 'today':
+                return $this->getDay(0);
+                break;
+            case 'tomorrow':
+                return $this->getDay(1);
+                break;
+            case 'afterTomorrow':
+                return $this->getDay(2);
+                break;
+            case 'afterAfterTomorrow':
+                return $this->getDay(3);
+                break;
+
+            case 'forecast':
+                return $this->getForecast();
+                break;
+        }
+    }
+
+    protected function getDay($key) 
+    {
+        $this->fetchForecast();
+        return isset($this->forecast[$key]) ? $this->forecast[$key] : null;
+    }
+
+    protected function getForecast() 
+    {
+        $this->fetchForecast();
+        return $this->forecast;
     }
 
     protected function fetchForecast() 
     {
-        if($this->forecast) {return true;}
+        if ($this->requested) { 
+            return true;
+        }
 
-        $scraper = new Climatempo($this->id);
-        $forecast = $scraper->fetch();
+        $scraper            = new Climatempo($this->id);
+        $forecast           = $scraper->fetch();
+        $this->errors       = $scraper->errors;
+        $this->requested    = true;
 
-        $this->forecast = reset($forecast);
-    }
+        if ($forecast) {
+            $this->forecast = reset($forecast);
+            return true;
+        }
 
-    public function today() 
-    {
-        $this->fetchForecast();
-        return $this->forecast[0];
-    }
-
-    public function tomorrow() 
-    {
-        $this->fetchForecast();
-        return $this->forecast[1];
-    }
-
-    public function afterTomorrow() 
-    {
-        $this->fetchForecast();
-        return $this->forecast[2];
-    }
-
-    public function afterAfterTomorrow() 
-    {
-        $this->fetchForecast();
-        return $this->forecast[3];
-    }
-
-    public function getForecast() 
-    {
-        $this->fetchForecast();
-        return $this->forecast;
+        $this->forecast     = array();
+        return false;
     }
 }

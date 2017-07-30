@@ -21,6 +21,11 @@ table {
     border: solid 1px #e6e6e6;
 }
 
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 table {
     color: #666;
     background-color: #fff

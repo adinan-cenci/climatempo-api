@@ -8,6 +8,14 @@ Eles dão a opção de embutir suas previsões em sites de terceiros, mas apenas
 
 Essa biblioteca lê a fonte de dados do dito widget e retorna a previsão do tempo para os próximos 4 dias.
 
+## Como instalar
+
+Use composer
+
+```bash
+composer require adinan-cenci/climatempo-api
+```
+
 
 ## Como usar
 
@@ -16,48 +24,58 @@ Nós vamos precisar das ids para essas cidades:
 
 ```php
 
-use AdinanCenci\Climatempo as CT;
+use AdinanCenci\Climatempo\Climatempo;
 
 $ids        = array('558'/*São paulo*/, '377'/*Florianópolis*/);
 
-$climatempo = new CT\Climatempo($ids);
+$climatempo = new Climatempo($ids);
 $previsao   = $climatempo->fetch();
 
 foreach ($previsao as $nomeDaCidade => $diasDaSemana) {
     foreach ($diasDaSemana as $dia) {
-        echo '
-        Cidade: <b>'.$nomeDaCidade.' ('.date('Y-m-d', $dia['date']).')</b>: <br>
-        Temp. mínima: '.$dia['low'].'°C <br>
-        Temp. máxima: '.$dia['high'].'°C <br>
-        Probal. de precipitação: '.$dia['pop'].'% <br>
-        Precipitação: '.$dia['mm'].'mm <br>
-        Frase: '.$dia['phrase'].' <br>
-        Icone: '.$dia['icon'].'<hr>';
+        echo "
+        Cidade: <b>{$nomeDaCidade (".date('Y-m-d', $dia['date']).")</b>: <br>
+        Temp. mínima: {$dia['low']}°C <br>
+        Temp. máxima: {$dia['high']}°C <br>
+        Probal. de precipitação: {$dia['pop']}% <br>
+        Precipitação: {$dia['mm']}mm <br>
+        Frase: {$dia['phrase']} <br>
+        Icone: {$dia['icon']}<hr>';
     }
 }
 
 ```
 
-## Como descobrir o ID para uma cidade em específico?
+## Como ter a previsão de uma cidade sem saber o ID?
 
-Infelizmente climatempo usa seu próprio sistema, cada cidade brasileira tem seu próprio ID.  
-Mas você pode facilmente usar a classe Search.
+Infelizmente o climatempo usa seu próprio sistema, cada cidade brasileira tem seu próprio ID.
+Mas você pode facilmente usar a classe Search para encontrar a cidade que procura.
 
 Digamos que nós queremos a previsão para Rio de Janeiro - RJ:
 
 ```php
 
-use AdinanCenci\Climatempo as CT;
+use AdinanCenci\Climatempo\Search;
 
-$rio        = CT\Search::find('rio de janeiro')[0];
-$previsao   = $rio->today();
+$pesquisa     = new Search();
+$pesquisa->cityName('rio de janeiro');
 
-echo '
-Temp. mínima: '.$previsao['low'].'°C<br>
-Temp. máxima: '.$previsao['high'].'°C<br>
-Probal. de precipitação: '.$previsao['pop'].'%<br>
-Precipitação: '.$previsao['mm'].'mm<br>
-Frase: '.$previsao['phrase'].'<br>
-Icone: '.$previsao['icon'];
+$rio = $pesquisa->find()[0];
+
+$previsao   = $rio->today;
+
+echo "
+Temp. mínima: {$previsao['low']}°C<br>
+Temp. máxima: {$previsao['high']}°C<br>
+Probal. de precipitação: {$previsao['pop']}%<br>
+Precipitação: {$previsao['mm']}mm<br>
+Frase: {$previsao['phrase']}<br>
+Icone: {$previsao['icon']}";
 
 ```
+
+Veja os exemplos na pasta "examples".
+
+## Licença
+
+Licença MIT

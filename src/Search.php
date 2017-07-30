@@ -2,90 +2,145 @@
 
 namespace AdinanCenci\Climatempo;
 
-abstract class Search {
-
+class Search 
+{
     protected static $cities = null;
 
-    public static function find($cityName, $state = null) 
+    protected $name         = null;
+
+    protected $state        = null;
+
+    protected $ids          = null;
+
+    public function __construct(
+        string $name        = null, 
+        string $state       = null, 
+        $ids                = array()
+    ) 
     {
-        if($state) {
-            return self::searchByState($cityName, $state);
+        $this->name         = $name;
+        $this->state        = $state;
+        $this->ids($ids);
+    }
+
+    public function name($name =  null) 
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function state($state =  null) 
+    {
+        $this->state = strtoupper($state);
+        return $this;
+    }
+
+    public function ids($ids) 
+    {
+        if (is_array($ids)) {
+            $this->ids = $ids;
         } else {
-            return self::searchByName($cityName);
+            $this->ids = func_get_args();
         }
-
-        return null;
+        return $this;   
     }
 
-
-    /**
-     * @return City|null
-     */
-    public static function searchById($id) 
+    public function addId($id) 
     {
-        self::loadDataFile();
-        
-        foreach (self::$cities as $uf => $cities) {
-            
-            foreach ($cities as $city) {
-                if($city['id'] == $id) {
-                    return self::newCity($city['id'], $city['name'], $uf);
-                }
-            }
-
+        if (is_array($id)) {
+            $this->ids = array_merge($this->ids, $id);
+        } else {
+            $this->ids = array_merge($this->ids, func_get_args());
         }
-        return null;
+        return $this;
     }
 
+    public function find() 
+    {        
+        if ($this->state and $this->name) {
+            return $this->searchByState();
+        }
+        
+        if ($this->name or $this->ids) {
+            return $this->loopThroughEverything();
+        }
 
-    protected static function searchByName($cityName) 
+        return array();
+    }
+
+    protected function loopThroughEverything() 
     {   
         self::loadDataFile();
 
         $results = array();
-        foreach (self::$cities as $uf => $cities) {
-            
-            foreach ($cities as $city) {
-                if(self::match($city['name'], $cityName)) {
-                    $results[] = self::newCity($city['id'], $city['name'], $uf);
-                }
-            }   
-            
+        foreach (self::$cities as $state => $cities) {  ;
+            $results = array_merge($results, $this->searchArray($cities));
         }
+
         return $results;    
     }
 
-    /**
-     * @param string $cityName
-     * @param string $uf Federative unity, a.k.a. state
-     */
-    protected static function searchByState($cityName, $uf) 
+    protected function searchByState() 
     {
         self::loadDataFile();
 
-        if(!isset(self::$cities[$uf])) { return null;}
-        
-        $results = array();
-        foreach (self::$cities[$uf] as $city) {
-            if(self::match($city['name'], $cityName)) {
-                $results[] = self::newCity($city['id'], $city['name'], $uf);
-            }
+        if (! isset(self::$cities[$this->state])) { 
+            return array();
         }
-        return $results;
+        
+        return $this->searchArray(self::$cities[$this->state]);
+    }
+
+    protected function searchArray(&$cities) 
+    {
+        $obj = $this;
+        $cities = array_filter($cities, function($ar) use ($obj) 
+        {
+            return $obj->match($ar);
+        });
+
+        return $this->instantiate($cities);
+    }
+
+    protected function match(&$city) 
+    {
+        if ($this->ids and in_array($city['id'], $this->ids)) {
+            return true;
+        }
+
+        if ($this->ids and !in_array($city['id'], $this->ids)) {
+            return false;
+        }
+
+        if ($this->state and $city['uf'] != $this->state) {
+            return false;
+        }
+
+        return $this->compareNames($city['name'], $this->name);
     }
 
 
-    protected static function match($cityName, $compare) 
+    protected function instantiate($array) 
     {
-        $cityName = strtolower($cityName);
-        $compare = strtolower($compare);
-        return substr_count($cityName, $compare);
+        return array_map(function($ar) 
+        {
+            return new City($ar['id'], $ar['name'], $ar['uf']);
+        }, $array);
     }
 
 
-    protected static function newCity($id, $name, $uf) 
+
+    protected function compareNames($compare, $name) 
     {
-        return new City($id, $name, $uf);
+        return substr_count( 
+            strtolower($compare), 
+            strtolower($name)
+        );
+    }
+    
+    public static function clearCache() 
+    {
+        self::$cities = array();
     }
 
     /**
@@ -93,11 +148,12 @@ abstract class Search {
      */
     protected static function loadDataFile() 
     {
-        if(!self::$cities) {
-            self::$cities = json_decode(file_get_contents(self::dataFile()), true);
+        if (self::$cities) {
+            return;
         }
+        
+        self::$cities = json_decode(file_get_contents(self::dataFile()), true);
     }
-
 
     /**
      * Returns the path to the json containing the cities information

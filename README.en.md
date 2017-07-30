@@ -3,11 +3,18 @@
 
 *Read this in other languages: [Português](README.md)
 
-[Climatempo](http://www.climatempo.com.br) is a brasilian online weather forecast service for brazilian cities.
+[Climatempo](http://www.climatempo.com.br) is an online weather forecast service for brazilian cities.
 They provide the option of embedding their forecast on third-party sites, but only through a flash widget.
 
 This library reads the content of said widget's source of data and returns the forecast for the next 4 days.
 
+## How to install
+
+Use composer
+
+```bash
+composer require adinan-cenci/climatempo-api
+```
 
 ## How to use it
 
@@ -16,48 +23,58 @@ We will need the ids for this cities:
 
 ```php
 
-use AdinanCenci\Climatempo as CT;
+use AdinanCenci\Climatempo\Climatempo;
 
 $ids        = array('558'/*São paulo*/, '377'/*Florianópolis*/);
 
-$climatempo = new CT\Climatempo($ids);
+$climatempo = new Climatempo($ids);
 $forecast   = $climatempo->fetch();
 
 foreach ($forecast as $cityName => $daysOfTheWeek) {
     foreach ($daysOfTheWeek as $day) {
-        echo '
-        City: <b>'.$cityName.' ('.date('Y-m-d', $day['date']).')</b>: <br>
-        Min. temperature: '.$day['low'].'°C <br>
-        Max. temperature: '.$day['high'].'°C <br>
-        Probal. of precipitation: '.$day['pop'].'% <br>
-        Precipitation: '.$day['mm'].'mm <br>
-        Phrase: '.$day['phrase'].' <br>
-        Icon: '.$day['icon'].'<hr>';
+        echo "
+        City: <b>$cityName (".date('Y-m-d', $day['date']).")</b>: <br>
+        Min. temperature: {$day['low']}°C <br>
+        Max. temperature: {$day['high']}°C <br>
+        Probal. of precipitation: {$day['pop']}% <br>
+        Precipitation: {$day['mm']}mm <br>
+        Phrase: {$day['phrase']} <br>
+        Icon: {$day['icon']}<hr>";
     }
 }
 
 ```
 
-## How can I figure out the ID of a especific city?
+## How to get the forecast for a city without knowing its ID?
 
 Unfortunately climatempo uses their own system, each brazilian city has its own id.  
-But you can simple use the Search class
+But you can easily use the class Search to find the city you are looking for.
 
 Let's say we want today's forecast for Rio de Janeiro - RJ:
 
 ```php
 
-use AdinanCenci\Climatempo as CT;
+use AdinanCenci\Climatempo\Search;
 
-$rio        = CT\Search::find('rio de janeiro')[0];
-$forecast   = $rio->today();
+$search        = new Search();
+$search->cityName('rio de janeiro');
 
-echo '
-Min. temperature: '.$forecast['low'].'°C<br>
-Max. temperature: '.$forecast['high'].'°C<br>
-Probal. of precipitation: '.$forecast['pop'].'%<br>
-Precipitation: '.$forecast['mm'].'mm<br>
-Phrase: '.$forecast['phrase'].'<br>
-Icon: '.$forecast['icon'];
+$rio = $search->find()[0];
+
+$forecast   = $rio->today;
+
+echo "
+Min. temperature: {$forecast['low']}°C<br>
+Max. temperature: {$forecast['high']}°C<br>
+Probal. of precipitation: {$forecast['pop']}%<br>
+Precipitation: {$forecast['mm']}mm<br>
+Phrase: {$forecast['phrase']}<br>
+Icon: {$forecast['icon'];
 
 ```
+
+See some examples inside the folder "examples".
+
+## License
+
+MIT License
