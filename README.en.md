@@ -57,7 +57,7 @@ Let's say we want today's forecast for Rio de Janeiro - RJ:
 use AdinanCenci\Climatempo\Search;
 
 $search        = new Search();
-$search->cityName('rio de janeiro');
+$search->name('rio de janeiro');
 
 $rio = $search->find()[0];
 

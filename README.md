@@ -58,7 +58,7 @@ Digamos que nós queremos a previsão para Rio de Janeiro - RJ:
 use AdinanCenci\Climatempo\Search;
 
 $pesquisa     = new Search();
-$pesquisa->cityName('rio de janeiro');
+$pesquisa->name('rio de janeiro');
 
 $rio = $pesquisa->find()[0];
 
