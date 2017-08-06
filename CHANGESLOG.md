@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] - 2017-07-30
 
-Several features were refactored
+Several classes were refactored
 
 ### Changed
 - Climatempo's constructor now accepts both an array or multiple arguments, example:
