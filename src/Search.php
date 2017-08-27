@@ -23,13 +23,13 @@ class Search
         $this->ids($ids);
     }
 
-    public function name($name =  null) 
+    public function name(string $name) 
     {
         $this->name = $name;
         return $this;
     }
 
-    public function state($state =  null) 
+    public function state(string $state) 
     {
         $this->state = strtoupper($state);
         return $this;
@@ -102,11 +102,17 @@ class Search
         return $this->instantiate($cities);
     }
 
+    /**
+     * Matches a city against the 
+     * search parameters
+     * @param $city array
+     * @return boolean
+     */
     protected function match(&$city) 
     {
         if ($this->ids and in_array($city['id'], $this->ids)) {
             return true;
-        }
+        } 
 
         if ($this->ids and !in_array($city['id'], $this->ids)) {
             return false;
@@ -119,13 +125,17 @@ class Search
         return $this->compareNames($city['name'], $this->name);
     }
 
-
-    protected function instantiate($array) 
+    /**
+     * Instantiate cities given in an array
+     * @param array $cities
+     * @return array $array [ City ]
+     */
+    protected function instantiate($cities) 
     {
         return array_map(function($ar) 
         {
             return new City($ar['id'], $ar['name'], $ar['uf']);
-        }, $array);
+        }, $cities);
     }
 
 
@@ -137,14 +147,10 @@ class Search
             strtolower($name)
         );
     }
-    
-    public static function clearCache() 
-    {
-        self::$cities = array();
-    }
 
     /**
-     * loads the data file in order to search
+     * Loads the database in order to realize 
+     * searches
      */
     protected static function loadDataFile() 
     {
@@ -154,10 +160,12 @@ class Search
         
         self::$cities = json_decode(file_get_contents(self::dataFile()), true);
     }
+    
+    public static function clearCache() 
+    {
+        self::$cities = array();
+    }
 
-    /**
-     * Returns the path to the json containing the cities information
-     */
     protected static function dataFile() 
     {
         return __DIR__.'/cities.json';

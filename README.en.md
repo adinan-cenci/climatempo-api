@@ -18,14 +18,14 @@ composer require adinan-cenci/climatempo-api
 
 ## How to use it
 
-Let's say we want the forecast for São Paulo - SP and Florianópolis - SC.  
-We will need the ids for this cities:
+Let's say we want the forecast for São Paulo - SP.  
+We will need the id for this city:
 
 ```php
 
 use AdinanCenci\Climatempo\Climatempo;
 
-$ids        = array('558'/*São paulo*/, '377'/*Florianópolis*/);
+$ids        = array('558'/*São paulo*/);
 
 $climatempo = new Climatempo($ids);
 $forecast   = $climatempo->fetch();
@@ -42,8 +42,46 @@ foreach ($forecast as $cityName => $daysOfTheWeek) {
         Icon: {$day['icon']}<hr>";
     }
 }
-
 ```
+
+Will result in:
+
+City: **SP - São Paulo (2017-08-27)**:  
+Min. temperature: 14°C  
+Max. temperature: 28°C  
+Probal. of precipitation: 0%  
+Precipitation: 0mm  
+Phrase: Sol o dia todo sem nuvens no céu. Noite de tempo aberto ainda sem nuvens.  
+Icon: sun
+___
+
+City: **SP - São Paulo (2017-08-28)**:  
+Min. temperature: 13°C  
+Max. temperature: 28°C  
+Probal. of precipitation: 0%  
+Precipitation: 0mm  
+Phrase: Sol o dia todo sem nuvens no céu. Noite de tempo aberto ainda sem nuvens.  
+Icon: sun
+___
+
+City: **SP - São Paulo (2017-08-29)**:  
+Min. temperature: 14°C  
+Max. temperature: 29°C  
+Probal. of precipitation: 0%  
+Precipitation: 0mm  
+Phrase: Sol o dia todo sem nuvens no céu. Noite de tempo aberto ainda sem nuvens.  
+Icon: sun
+___
+
+City: **SP - São Paulo (2017-08-30)**:  
+Min. temperature: 15°C  
+Max. temperature: 31°C  
+Probal. of precipitation: 0%  
+Precipitation: 0mm  
+Phrase: Sol o dia todo sem nuvens no céu. Noite de tempo aberto ainda sem nuvens.  
+Icon: sun
+___
+
 
 ## How to get the forecast for a city without knowing its ID?
 
@@ -56,24 +94,46 @@ Let's say we want today's forecast for Rio de Janeiro - RJ:
 
 use AdinanCenci\Climatempo\Search;
 
-$search        = new Search();
+$search = new Search();
 $search->name('rio de janeiro');
 
-$rio = $search->find()[0];
-
-$forecast   = $rio->today;
-
-echo "
-Min. temperature: {$forecast['low']}°C<br>
-Max. temperature: {$forecast['high']}°C<br>
-Probal. of precipitation: {$forecast['pop']}%<br>
-Precipitation: {$forecast['mm']}mm<br>
-Phrase: {$forecast['phrase']}<br>
-Icon: {$forecast['icon'];
+$rio = $search->find()[0]; // object City
 
 ```
 
-See some examples inside the folder "examples".
+You may access the forecast through the property "forecast"
+
+```php
+
+$rio->forecast;         // returns the entire forecast
+$rio->today;            // returns the forecast for today
+$rio->tomorrow;         // ...
+$rio->afterTomorrow;
+$rio->afterAfterTomorrow;
+
+```
+
+## Searching
+
+Speaking of searching, the Search class allow us to narrow down the scope by state.  
+The example below will search for all cities wich names contain the word "rio" in the state of 
+Rio de Janeiro.
+
+```php
+
+use AdinanCenci\Climatempo\Search;
+
+$search = new Search();
+$search
+->name('rio')
+->state('RJ');
+
+$search->find(); // returns array
+
+```
+
+
+See other examples inside the folder "examples".
 
 ## License
 

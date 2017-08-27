@@ -1,10 +1,10 @@
 <?php
 
-require __DIR__.'/Base.php';
+require __DIR__.'/Reflections.php';
 
 use \AdinanCenci\Climatempo\Climatempo;
 
-class ScraperTest extends Base
+class ClimaTest extends Reflections
 {
 	public function testConvertStringIntoTimestamp() 
 	{

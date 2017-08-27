@@ -38,7 +38,7 @@ class Climatempo
 {
     /**
      * array containing the ids for the desired cities
-     * @property array $citiesIds
+     * @var array $citiesIds
      */
     protected $citiesIds = array();
 
@@ -77,24 +77,28 @@ class Climatempo
 
     /**
      * @param array|int $ids
+     * @return $this
      */
     public function setIds($ids) 
     {
         $this->citiesIds = is_array($ids) ? $ids : array($ids);
+        return $this;
     }
 
     /**
      * @param int $id
+     * @return $this
      */
     public function addId($id) 
     {
         $this->citiesIds[] = $id;
+        return $this;
     }
 
     /**
-     * it will attempt to make a request,
-     * read the xml
-     * and return the data in array form
+     * Attempt to make a request,
+     * read the xml and return the 
+     * data in array form
      * @return array|false
      */
     public function fetch() 
@@ -116,10 +120,10 @@ class Climatempo
      * It will return a multidimensioanl array with the forecast for each city like:
      * city-name: [{date, low, high, prob, mm, icon, phrase}, {date, low ... ]
      * icon is supposed to represents a unique graphic icon to display the weather.
-     * @param SimpleXMLElement $dom
+     * @param \SimpleXMLElement $dom
      * @return array
      */
-    protected function readDom($dom) 
+    protected function readDom(\SimpleXMLElement $dom) 
     {
         /**
          * <selos>
@@ -129,11 +133,11 @@ class Climatempo
          *      ...
         */
 
-        $children = $dom->children();
+        $children   = $dom->children();
 
-        $l = count($children);
+        $l          = count($children);
 
-        $cyties = array();
+        $cyties     = array();
 
         // ignore the first two nodes, video and parametro
         for ($n = 2; $n < $l; $n++) {
@@ -181,9 +185,9 @@ class Climatempo
      * Attempts to instantiate a SimpleXMLElement 
      * out of the xml parameter
      * @param string $xml
-     * @return SimpleXMLElement|false
+     * @return \SimpleXMLElement|false
      */
-    protected function simpleXml($xml) // :SimpleXMLElement|false
+    protected function simpleXml($xml) 
     {
         $xml = mb_convert_encoding($xml, 'UTF-8', 'ISO-8859-1');
         $xml = str_replace(array("\n", "\r", "\t"), '', $xml);
