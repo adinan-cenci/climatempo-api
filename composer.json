@@ -4,7 +4,7 @@
     "type": "library", 
     "keywords": ["api", "previsão do tempo", "weather", "forecast"], 
     "license": "MIT",
-    "version": "1.0", 
+    "version": "2.0.0", 
     "authors": [
         {
             "name": "Adinan Cenci", 
