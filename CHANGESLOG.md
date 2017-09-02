@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.0.2 - 2017-09-02
+
+Moved phpUnit from requirements to dev requirements
+
 ## 2.0.0 - 2017-08-27
 
 Several classes were refactored to make things simpler.
