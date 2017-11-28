@@ -88,7 +88,7 @@ $rio = $pesquisa->find()[0]; // objeto City
 
 ```
 
-Você pode acessar a previsão através da propriedade "forecast"
+Então você pode acessar a previsão através dos seguintes metodos:
 
 ```php
 
