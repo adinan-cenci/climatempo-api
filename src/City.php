@@ -3,14 +3,14 @@ namespace AdinanCenci\Climatempo;
 
 class City 
 {
-    protected $id;
-    protected $name;
-    protected $state;
+    protected $id           = null;
+    protected $name         = null;
+    protected $state        = null;
 
     protected $forecast     = null;
     protected $requested    = false;
 
-    protected $errors = array();
+    protected $errors       = array();
 
     public function __construct($id, $name, $state) 
     {
@@ -25,56 +25,23 @@ class City
         if (in_array($var, $readOnly)) {
             return $this->{$var};
         }
-
-        switch ($var) {
-            case 'today':
-                return $this->getDay(0);
-                break;
-            case 'tomorrow':
-                return $this->getDay(1);
-                break;
-            case 'afterTomorrow':
-                return $this->getDay(2);
-                break;
-            case 'afterAfterTomorrow':
-                return $this->getDay(3);
-                break;
-
-            case 'forecast':
-                return $this->getForecast();
-                break;
-        }
     }
 
-    protected function getDay($key) 
+    public function fifteenDays($token) 
     {
-        $this->fetchForecast();
-        return isset($this->forecast[$key]) ? $this->forecast[$key] : null;
+        $climatempo = new Climatempo($token);
+        return $climatempo->fifteenDays($this->id);
     }
 
-    protected function getForecast() 
+    public function seventyTwoHours($token) 
     {
-        $this->fetchForecast();
-        return $this->forecast;
+        $climatempo = new Climatempo($token);
+        return $climatempo->seventyTwoHours($this->id);
     }
 
-    protected function fetchForecast() 
+    public function current($token) 
     {
-        if ($this->requested) { 
-            return true;
-        }
-
-        $scraper            = new Climatempo($this->id);
-        $forecast           = $scraper->fetch();
-        $this->errors       = $scraper->errors;
-        $this->requested    = true;
-
-        if ($forecast) {
-            $this->forecast = reset($forecast);
-            return true;
-        }
-
-        $this->forecast     = array();
-        return false;
+        $climatempo = new Climatempo($token);
+        return $climatempo->current($this->id);
     }
 }

@@ -10,15 +10,19 @@ body {
     padding: 20px;
     margin: 0px;
     font-family: 'Roboto', 'Ubuntu', Arial;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.3em;
 
     background-color: #FAFAFA;
 }
 
-table {
-    border-collapse: collapse;
-    border: solid 1px #e6e6e6;
+table, 
+div, 
+p, 
+table, 
+form {
+    width: 100%;
+    margin: 0px auto 20px auto;
 }
 
 hr {
@@ -27,11 +31,19 @@ hr {
 }
 
 table {
+    border-collapse: collapse;
+    border: solid 1px #e6e6e6;
     color: #666;
     background-color: #fff
 }
-    td, th {
+
+    td, th, caption {
         padding: 10px;
+    }
+
+    caption {
+        color: #fff;
+        background-color: #333;
     }
 
     th {
@@ -47,3 +59,36 @@ table {
     .icon {
         width: 35px;
     }
+
+.text-center {
+    text-align: center;
+}
+
+/*------------------*/
+
+table.forecast {
+    margin-bottom: 60px
+}
+
+    .forecast th, 
+    .forecast td {
+        width: 20%;
+        text-align: center;
+    }
+
+    .forecast tbody td {
+        border: solid 1px #e6e6e6;
+    }
+
+    .forecast .resume {
+        background-color: #f7f7f7;
+    }
+
+
+.temp-min {
+    color: #5656ff;
+}
+
+.temp-max {
+    color: #f75e5e;
+}

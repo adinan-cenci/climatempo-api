@@ -4,13 +4,13 @@ namespace AdinanCenci\Climatempo;
 
 class Search 
 {
-    protected static $cities = null;
+    protected static $cities    = null;
 
-    protected $name         = null;
+    protected $name             = null;
 
-    protected $state        = null;
+    protected $state            = null;
 
-    protected $ids          = null;
+    protected $ids              = null;
 
     public function __construct(
         string $name        = null, 
@@ -137,8 +137,6 @@ class Search
             return new City($ar['id'], $ar['name'], $ar['uf']);
         }, $cities);
     }
-
-
 
     protected function compareNames($compare, $name) 
     {

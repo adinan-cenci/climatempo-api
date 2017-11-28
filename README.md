@@ -1,7 +1,7 @@
 
 # Climatempo API
 
-*Read this in other languages: [English](README.en.md)
+*Read this in other languages: [English](README.en.md)  
 
 [Climatempo](http://www.climatempo.com.br) é um serviço de previsão do tempo para cidades brasileiras.
 Eles dão a opção de embutir suas previsões em sites de terceiros, mas apenas através de um widget feito em flash.
@@ -26,61 +26,48 @@ Nós vamos precisar do id para essa cidade:
 
 use AdinanCenci\Climatempo\Climatempo;
 
-$ids        = array('558'/*São paulo*/);
+$token      = 'seuTokenAqui';
+$id         = 3477; /*São paulo*/
 
-$climatempo = new Climatempo($ids);
-$previsao   = $climatempo->fetch();
+$climatempo = new Climatempo($token);
+$previsao   = $climatempo->fifteenDays($id);
 
-foreach ($previsao as $nomeDaCidade => $diasDaSemana) {
-    foreach ($diasDaSemana as $dia) {
-        echo "
-        Cidade: <b>$nomeDaCidade (".date('Y-m-d', $dia['date']).")</b>: <br>
-        Temp. mínima: {$dia['low']}°C <br>
-        Temp. máxima: {$dia['high']}°C <br>
-        Probal. de precipitação: {$dia['pop']}% <br>
-        Precipitação: {$dia['mm']}mm <br>
-        Frase: {$dia['phrase']} <br>
-        Icone: {$dia['icon']}<hr>";
-    }
+
+foreach ($previsao->days as $dia) {
+    echo "
+    Cidade: <b>$previsao->city ($dia->date)</b>: <br>
+    Temp. mínima: $dia->minTemp °C <br>
+    Temp. máxima: $dia->maxTemp °C <br>
+    Probal. de precipitação: $dia->pop % <br>
+    Precipitação: $dia->mm mm <br>
+    Frase: $dia->textPt <hr>";
 }
 ```
 
 Vai resultar em: 
 
-idade: **SP - São Paulo (2017-08-27)**:  
-Temp. mínima: 14°C  
-Temp. máxima: 28°C  
-Probal. de precipitação: 0%  
-Precipitação: 0mm  
-Frase: Sol o dia todo sem nuvens no céu. Noite de tempo aberto ainda sem nuvens.  
-Icone: sun
+Cidade: **São Paulo (2017-12-06)**:  
+Temp. mínima: 21 °C  
+Temp. máxima: 32 °C  
+Probal. de precipitação: %  
+Precipitação: mm  
+Frase: Sol com algumas nuvens  
 ___
 
-Cidade: **SP - São Paulo (2017-08-28)**:  
-Temp. mínima: 13°C  
-Temp. máxima: 28°C  
-Probal. de precipitação: 0%  
-Precipitação: 0mm  
-Frase: Sol o dia todo sem nuvens no céu. Noite de tempo aberto ainda sem nuvens.  
-Icone: sun
+Cidade: **São Paulo (2017-12-07)**:  
+Temp. mínima: 18 °C  
+Temp. máxima: 24 °C  
+Probal. de precipitação: 75 %  
+Precipitação: 2 mm  
+Frase: Sol e Chuva  
 ___
 
-Cidade: **SP - São Paulo (2017-08-29)**:  
-Temp. mínima: 14°C  
-Temp. máxima: 29°C  
-Probal. de precipitação: 0%  
-Precipitação: 0mm  
-Frase: Sol o dia todo sem nuvens no céu. Noite de tempo aberto ainda sem nuvens.  
-Icone: sun
-___
-
-Cidade: **SP - São Paulo (2017-08-30)**:  
-Temp. mínima: 15°C  
-Temp. máxima: 31°C  
-Probal. de precipitação: 0%  
-Precipitação: 0mm  
-Frase: Sol o dia todo sem nuvens no céu. Noite de tempo aberto ainda sem nuvens.  
-Icone: sun
+Cidade: **São Paulo (2017-12-08)**:  
+Temp. mínima: 16 °C  
+Temp. máxima: 20 °C  
+Probal. de precipitação: 75 %  
+Precipitação: 3 mm  
+Frase: Sol e Chuva  
 ___
 
 
@@ -106,11 +93,9 @@ Você pode acessar a previsão através da propriedade "forecast"
 
 ```php
 
-$rio->forecast;             // retorna a previsão inteira
-$rio->today;                // retorna a previsão para hoje
-$rio->tomorrow;             // ... de amanhã
-$rio->afterTomorrow;        // depois de amanhã
-$rio->afterAfterTomorrow;   // depois, depois de amanhã
+$rio->fifteenDays($token);              // retorna a previsão para os próximos 15 dias
+$rio->seventyTwoHours($token);          // retorna a previsão para as próximas 72 dias
+$rio->current($token);                  // retorna o estado do clima neste instante 
 
 ```
 

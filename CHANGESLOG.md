@@ -1,6 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 3.0.0 - Upcoming
+
+### Changed
+Now that Climatempo provides a decent API for developers, we moved from 
+scraping a xml to using said API.
+
+
+The new API needs an access token, this token can be generated after creating  
+an account in advisor.climatempo.com.br
+
+
 ## 2.0.2 - 2017-09-02
 
 Moved phpUnit from requirements to dev requirements
