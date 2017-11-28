@@ -4,9 +4,8 @@
 *Read this in other languages: [English](README.en.md)  
 
 [Climatempo](http://www.climatempo.com.br) é um serviço de previsão do tempo para cidades brasileiras.
-Eles dão a opção de embutir suas previsões em sites de terceiros, mas apenas através de um widget feito em flash.
-
-Essa biblioteca lê a fonte de dados do dito widget e retorna a previsão do tempo para os próximos 4 dias.
+Eles oferece uma API do tipo REST para desenvolvedores e o objetivo desta biblioteca é 
+fazer simples a requisição de previsão de tempo via dita API.
 
 ## Como instalar
 
