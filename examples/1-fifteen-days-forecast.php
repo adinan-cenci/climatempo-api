@@ -1,12 +1,6 @@
 <?php
 require 'resources/header.html';
-/**
- * # Example of usage
- * 
- * The class ClimaTempo makes the requisitions to the
- * climatempo server, reads the XML and returns an array
- * 
- */
+
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
