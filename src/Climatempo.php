@@ -89,7 +89,11 @@ class Climatempo
      */
     public function findCity($name, $state = '') 
     {
-        $url = 'http://apiadvisor.climatempo.com.br/api/v1/locale/city?name='.$name. ($state ? '&state='.$state : '') .'&token='.$this->token;
+        $url = 
+        'http://apiadvisor.climatempo.com.br/api/v1/locale/city?name='.$name.
+        ($state ? '&state='.$state : '').
+        '&token='.$this->token;
+
         $content = $this->request($url, 'get', $httpCode);
 
         return json_decode($content, true);
@@ -103,11 +107,11 @@ class Climatempo
      */
     protected function request($url, $method = 'get', &$httpCode) 
     {
-        $ch = curl_init();
+        $ch         = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $content  = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $content    = curl_exec($ch);
+        $httpCode   = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
         if ($content == false or $httpCode != 200) {
