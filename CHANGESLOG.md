@@ -1,16 +1,21 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 3.0.0 - Upcoming
+## 3.0.0 - 2017-12-09
 
 ### Changed
 Now that Climatempo provides a decent API for developers, we moved from 
-scraping a xml to using said API.
-
+scraping a xml file to using said API.
 
 The new API needs an access token, this token can be generated after creating  
 an account in advisor.climatempo.com.br
 
+It is no longer possible to get information for more than one city per request.
+
+Now with the new API, a great deal more of data is available and the arrays that 
+returned from the requests were replaced with objects.
+
+Upon error, the requests to the API will throw Exceptions.
 
 ## 2.0.2 - 2017-09-02
 

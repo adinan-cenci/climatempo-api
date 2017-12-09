@@ -5,7 +5,9 @@ class SeventyTwoHours
 {
     protected $slave;
 
-    use Wrapper;
+    use Wrapper {
+        __get as protected __parentGet;
+    }
 
     protected static $map = array(
         'dateBr'                        => '$this->slave->date_br', 
@@ -28,6 +30,15 @@ class SeventyTwoHours
     public function __construct($slave) 
     {
         $this->slave = $slave;
+    }
+
+    public function __get($key) 
+    {
+        if ($key == 'timestamp') {
+            return strtotime($this->date);
+        }
+
+        return $this->__parentGet($key);
     }
 }
 

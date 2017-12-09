@@ -21,17 +21,22 @@ $climatempo = new Climatempo($token);
 
 $id         = 3477; // São Paulo - SP
 
-$f = $climatempo->fifteenDays($id);
+try {
+    $forecast = $climatempo->fifteenDays($id);
+} catch (Exception $e) {
+    echo '<b>Error: </b>'.$e->getMessage();
+    die();
+}
 
 echo 
-"<h2>$f->name / $f->state - $f->country</h2>";
+"<h2>$forecast->name / $forecast->state - $forecast->country</h2>";
 
 
-foreach ($f->data as $day) {
+foreach ($forecast->data as $day) {
     echo 
     "<table class=\"forecast\">
         <caption>
-            $day->date - $day->textPt - $day->dateBr
+            $day->date - $day->textPt - $day->dateBr (Timestamp: $day->timestamp)
         </caption>
         <thead>
             <tr>
@@ -47,15 +52,15 @@ foreach ($f->data as $day) {
                 <td rowspan=\"3\" class=\"resume\">
                     <img src=\"resources/images/$day->dayIcon.png\" /> <br>
 
-                    <b class=\"temp-min\">$day->minTemp °C</b> - 
-                    <b class=\"temp-max\">$day->maxTemp °C</b> <br>
+                    <b class=\"temp-min\">$day->minTemperature °C</b> - 
+                    <b class=\"temp-max\">$day->maxTemperature °C</b> <br>
                     <br>
                     Thermal Sensation <br>
                     <br>
-                    <b class=\"temp-min\">$day->minThermal °C</b> - 
-                    <b class=\"temp-max\">$day->maxThermal °C</b> <br>
+                    <b class=\"temp-min\">$day->minThermalSensation °C</b> - 
+                    <b class=\"temp-max\">$day->maxThermalSensation °C</b> <br>
                     
-                    $day->reducedText
+                    $day->resume
                 </td>
                 <td>
                     Min: $day->minHumidity% <br>
@@ -90,24 +95,24 @@ foreach ($f->data as $day) {
                 <td>
                     <img src=\"resources/images/$day->morningIcon.png\" /> <br>
                     
-                    <b class=\"temp-min\">$day->minMorningTemp °C</b> - 
-                    <b class=\"temp-max\">$day->maxMorningTemp °C</b> <br>
+                    <b class=\"temp-min\">$day->minMorningTemperature °C</b> - 
+                    <b class=\"temp-max\">$day->maxMorningTemperature °C</b> <br>
 
                     $day->morningText
                 </td>
                 <td>
                     <img src=\"resources/images/$day->afternoonIcon.png\" /> <br>
 
-                    <b class=\"temp-min\">$day->minAfternoonTemp °C</b> - 
-                    <b class=\"temp-max\">$day->maxAfternoonTemp °C</b> <br>
+                    <b class=\"temp-min\">$day->minAfternoonTemperature °C</b> - 
+                    <b class=\"temp-max\">$day->maxAfternoonTemperature °C</b> <br>
 
                     $day->afternoonText
                 </td>
                 <td>
                     <img src=\"resources/images/$day->nightIcon.png\" /> <br>
 
-                    <b class=\"temp-min\">$day->minNightTemp °C</b> - 
-                    <b class=\"temp-max\">$day->maxNightTemp °C</b> <br>
+                    <b class=\"temp-min\">$day->minNightTemperature °C</b> - 
+                    <b class=\"temp-max\">$day->maxNightTemperature °C</b> <br>
 
                     $day->nightText
                 </td>
@@ -116,8 +121,4 @@ foreach ($f->data as $day) {
     </table>";
 }
 
-
 require 'resources/footer.html';
-?>
-
-

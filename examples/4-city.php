@@ -17,22 +17,24 @@ use AdinanCenci\Climatempo\Search;
 
 /*-----------------------------*/
 
+$token  = 'insert-your-token-here';
 $search = new Search('belo horizonte');
 $bh     = $search->find()[0];
-$token  = 'insert-your-token-here';
 
 /*-----------------------------*/
 
-echo "
-<p>
-    Here is the forecast for the citiy of $bh->name - $bh->state
-</p>";
+echo 
+"<p>Here is the forecast for the citiy of $bh->name - $bh->state</p>";
 
-$forecast = $bh->fifteenDays($token);
+try {
+    $forecast = $bh->fifteenDays($token);
+} catch (Exception $e) {
+    echo '<b>Error: </b>'.$e->getMessage();
+    die();
+}
 
-?>
-
-<table>
+echo 
+'<table>
     <tr>
         <th>Date</th>
         <th title="Lower temperature">Low</th>
@@ -41,8 +43,7 @@ $forecast = $bh->fifteenDays($token);
         <th title="Precipitation">MM</th>
         <th>Icon</th>
         <th>Phrase</th>
-    </tr>
-    <?php
+    </tr>';
 
     foreach ($forecast->days as $day) {
         echo "
@@ -61,6 +62,7 @@ $forecast = $bh->fifteenDays($token);
             </td>
             <td> $day->textPt </td>
         </tr>"; 
-    }?>
-</table>
+    }
 
+echo 
+'</table>';

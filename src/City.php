@@ -10,8 +10,6 @@ class City
     protected $forecast     = null;
     protected $requested    = false;
 
-    protected $errors       = array();
-
     public function __construct($id, $name, $state) 
     {
         $this->id       = $id;
@@ -29,8 +27,28 @@ class City
 
     public function fifteenDays($token) 
     {
-        $climatempo = new Climatempo($token);
-        return $climatempo->fifteenDays($this->id);
+        if ($this->requested) {
+            return $this->forecast;
+        }
+
+        $climatempo             = new Climatempo($token);
+        $this->requested        = true;
+        return $this->forecast  = $climatempo->fifteenDays($this->id);
+    }
+    
+    public function today($token) 
+    {
+        return $this->fifteenDays($token)->days[0];
+    }
+
+    public function tomorow($token) 
+    {
+        return $this->fifteenDays($token)->days[1];
+    }
+
+    public function afterTomorow($token) 
+    {
+        return $this->fifteenDays($token)->days[2];
     }
 
     public function seventyTwoHours($token) 

@@ -21,13 +21,18 @@ $climatempo = new Climatempo($token);
 
 $id         = 3477; // São Paulo - SP
 
-$f = $climatempo->seventyTwoHours($id);
+try {
+    $forecast = $climatempo->seventyTwoHours($id);
+} catch (Exception $e) {
+    echo '<b>Error: </b>'.$e->getMessage();
+    die();
+}
 
 echo 
-"<h2>$f->name / $f->state - $f->country</h2>";
+"<h2>$forecast->name / $forecast->state - $forecast->country</h2>";
 
 
-foreach ($f->data as $day) {
+foreach ($forecast->data as $day) {
     echo 
     "<table class=\"forecast\">
         <caption>
@@ -58,8 +63,4 @@ foreach ($f->data as $day) {
     </table>";
 }
 
-
 require 'resources/footer.html';
-?>
-
-

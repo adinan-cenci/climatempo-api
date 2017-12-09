@@ -5,7 +5,9 @@ class FifteenDays
 {
     protected $slave;
 
-    use Wrapper;
+    use Wrapper {
+        __get as protected __parentGet;
+    }
 
     protected static $map = array(
         'dateBr'                        => '$this->slave->date_br', 
@@ -42,10 +44,13 @@ class FifteenDays
         'nightIcon'                     => '$this->slave->text_icon->icon->night', 
       
         'textPt'                        => '$this->slave->text_icon->text->pt', 
+
         'textEn'                        => '$this->slave->text_icon->text->en', 
+
         'textEs'                        => '$this->slave->text_icon->text->es', 
 
         'reducedText'                   => '$this->slave->text_icon->text->phrase->reduced', 
+        'resume'                        => '$this->slave->text_icon->text->phrase->reduced', 
 
         'morningText'                   => '$this->slave->text_icon->text->phrase->morning', 
         'afternoonText'                 => '$this->slave->text_icon->text->phrase->afternoon', 
@@ -53,22 +58,36 @@ class FifteenDays
         'dawnText'                      => '$this->slave->text_icon->text->phrase->dawn', 
 
         'minTemp'                       => '$this->slave->temperature->min', 
+        'minTemperature'                => '$this->slave->temperature->min', 
+
         'maxTemp'                       => '$this->slave->temperature->max', 
+        'maxTemperature'                => '$this->slave->temperature->max', 
 
         'minMorningTemp'                => '$this->slave->temperature->morning->min', 
-        'maxMorningTemp'                => '$this->slave->temperature->morning->max', 
+        'minMorningTemperature'         => '$this->slave->temperature->morning->min', 
 
-        'minAfternoonTemp'              => '$this->slave->temperature->afternoon->min', 
-        'maxAfternoonTemp'              => '$this->slave->temperature->afternoon->max', 
+        'maxMorningTemp'                => '$this->slave->temperature->morning->max', 
+        'maxMorningTemperature'         => '$this->slave->temperature->morning->max', 
+
+        'minAfternoonTemperature'       => '$this->slave->temperature->afternoon->min', 
+        'minAfternoonTemperature'       => '$this->slave->temperature->afternoon->min', 
+
+        'maxAfternoonTemperature'       => '$this->slave->temperature->afternoon->max', 
+        'maxAfternoonTemperature'       => '$this->slave->temperature->afternoon->max', 
 
         'temperature'                   => '$this->slave->temperature->temperature', 
-        'minNightTemp'                  => '$this->slave->temperature->night->min', 
-        'maxNightTemp'                  => '$this->slave->temperature->night->max', 
+
+        'minNightTemperature'           => '$this->slave->temperature->night->min', 
+        'minNightTemperature'           => '$this->slave->temperature->night->min', 
+
+        'maxNightTemperature'           => '$this->slave->temperature->night->max', 
+        'maxNightTemperature'           => '$this->slave->temperature->night->max', 
 
         'uvMax'                         => '$this->slave->uv->max', 
 
         'minThermal'                    => '$this->slave->thermal_sensation->min', 
         'minThermalSensation'           => '$this->slave->thermal_sensation->min', 
+
         'maxThermal'                    => '$this->slave->thermal_sensation->max', 
         'maxThermalSensation'           => '$this->slave->thermal_sensation->max', 
     );
@@ -77,4 +96,14 @@ class FifteenDays
     {
         $this->slave = $slave;
     }
+
+    public function __get($key) 
+    {
+        if ($key == 'timestamp') {
+            return strtotime($this->date);
+        }
+
+        return $this->__parentGet($key);
+    }
+
 }

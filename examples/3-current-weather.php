@@ -21,16 +21,21 @@ $climatempo = new Climatempo($token);
 
 $id         = 3477; // São Paulo - SP
 
-$f = $climatempo->current($id);
+try {
+    $weather = $climatempo->current($id);
+} catch (Exception $e) {
+    echo '<b>Error: </b>'.$e->getMessage();
+    die();
+}
 
 echo 
-"<h2>$f->name / $f->state - $f->country</h2>";
+"<h2>$weather->name / $weather->state - $weather->country</h2>";
 
 
 echo 
 "<table class=\"forecast\">
     <caption>
-        $f->date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $f->dateBr
+        $weather->date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $weather->dateBr
     </caption>
     <thead>
         <tr>
@@ -42,18 +47,18 @@ echo
         <tr>
             <td>
             
-                <img src=\"resources/images/$f->icon.png\"/> <br>
-                Condition: $f->condition <br>
-                Temparature: $f->temperature °C <br>
-                Sensation: $f->sensation °C <br>
-                Humidity: $f->humidity <br>               
+                <img src=\"resources/images/$weather->icon.png\"/> <br>
+                Condition: $weather->condition <br>
+                Temparature: $weather->temperature °C <br>
+                Sensation: $weather->sensation °C <br>
+                Humidity: $weather->humidity <br>               
                 
             </td>
             <td>
-                Wind velocity: $f->windVelocity km/h <br>
-                Wind direction: $f->windDirection <br>
+                Wind velocity: $weather->windVelocity km/h <br>
+                Wind direction: $weather->windDirection <br>
                 
-                Pressure: $f->pressure hPa
+                Pressure: $weather->pressure hPa
             </td>
         </tr>
     </tbody>
