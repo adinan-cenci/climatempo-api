@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 3.0.1 - 2018-01-06
+
+### Changed
+Examples of use adjusted to be clearer.  
+Climatempo class can now make post requests.  
+
 ## 3.0.0 - 2017-12-09
 
 ### Changed

@@ -13,11 +13,12 @@ class SeventyTwoHours
         'dateBr'                        => '$this->slave->date_br', 
         
         'precipitation'                 => '$this->slave->rain->precipitation', 
+        'precip'                        => '$this->slave->rain->precipitation', 
 
         'windVelocity'                  => '$this->slave->wind->velocity', 
+
         'gust'                          => '$this->slave->wind->gust', 
-        'gustVelocity'                  => '$this->slave->wind->gust', 
-        
+        'gustVelocity'                  => '$this->slave->wind->gust',         
 
         'windDegree'                    => '$this->slave->wind->directionDegrees', 
         'windDirectionDegree'           => '$this->slave->wind->directionDegrees', 

@@ -2,8 +2,6 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-require 'resources/header.html';
-
 /*-----------------------------*/
 
 require '../src/Climatempo.php';
@@ -22,6 +20,8 @@ $search = new Search('belo horizonte');
 $bh     = $search->find()[0];
 
 /*-----------------------------*/
+
+require 'resources/header.html';
 
 echo 
 "<p>Here is the forecast for the citiy of $bh->name - $bh->state</p>";

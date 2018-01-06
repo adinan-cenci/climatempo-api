@@ -12,25 +12,27 @@ class FifteenDays
     protected static $map = array(
         'dateBr'                        => '$this->slave->date_br', 
         'minHumidity'                   => '$this->slave->humidity->min', 
-        'maxHumidity'                   => '$this->slave->humidity->max', 
-        'precipitation'                 => '$this->slave->rain->precipitation', 
-        'mm'                            => '$this->slave->rain->precipitation', 
+        'maxHumidity'                   => '$this->slave->humidity->max',               
 
         'pop'                           => '$this->slave->rain->probability', 
+        'probOfPrecip'                  => '$this->slave->rain->probability', 
         'probabilityOfPrecipitation'    => '$this->slave->rain->probability', 
 
+        'mm'                            => '$this->slave->rain->precipitation', 
+        'precip'                        => '$this->slave->rain->precipitation', 
         'precipitation'                 => '$this->slave->rain->precipitation', 
-        'minWindVelocity'               => '$this->slave->wind->velocity_min', 
+
         'minWind'                       => '$this->slave->wind->velocity_min', 
+        'minWindVelocity'               => '$this->slave->wind->velocity_min', 
 
-        'maxWindVelocity'               => '$this->slave->wind->velocity_max', 
         'maxWind'                       => '$this->slave->wind->velocity_max', 
+        'maxWindVelocity'               => '$this->slave->wind->velocity_max', 
 
-        'avgWindVelocity'               => '$this->slave->wind->velocity_avg', 
         'avgWind'                       => '$this->slave->wind->velocity_avg', 
+        'avgWindVelocity'               => '$this->slave->wind->velocity_avg', 
 
-        'maxGustVelocity'               => '$this->slave->wind->gust_max', 
         'gustMax'                       => '$this->slave->wind->gust_max', 
+        'maxGustVelocity'               => '$this->slave->wind->gust_max', 
 
         'windDegree'                    => '$this->slave->wind->direction_degrees', 
         'windDirectionDegree'           => '$this->slave->wind->direction_degrees', 
@@ -44,13 +46,11 @@ class FifteenDays
         'nightIcon'                     => '$this->slave->text_icon->icon->night', 
       
         'textPt'                        => '$this->slave->text_icon->text->pt', 
-
         'textEn'                        => '$this->slave->text_icon->text->en', 
-
         'textEs'                        => '$this->slave->text_icon->text->es', 
 
-        'reducedText'                   => '$this->slave->text_icon->text->phrase->reduced', 
         'resume'                        => '$this->slave->text_icon->text->phrase->reduced', 
+        'reducedText'                   => '$this->slave->text_icon->text->phrase->reduced', 
 
         'morningText'                   => '$this->slave->text_icon->text->phrase->morning', 
         'afternoonText'                 => '$this->slave->text_icon->text->phrase->afternoon', 
@@ -69,18 +69,24 @@ class FifteenDays
         'maxMorningTemp'                => '$this->slave->temperature->morning->max', 
         'maxMorningTemperature'         => '$this->slave->temperature->morning->max', 
 
-        'minAfternoonTemperature'       => '$this->slave->temperature->afternoon->min', 
+        'minAfternoonTemp'              => '$this->slave->temperature->afternoon->min', 
         'minAfternoonTemperature'       => '$this->slave->temperature->afternoon->min', 
 
+        'minAfternoonTemp'              => '$this->slave->temperature->afternoon->min', 
+        'minAfternoonTemperature'       => '$this->slave->temperature->afternoon->min', 
+
+        'maxAfternoonTemp'              => '$this->slave->temperature->afternoon->max', 
         'maxAfternoonTemperature'       => '$this->slave->temperature->afternoon->max', 
+
+        'maxAfternoonTemp'              => '$this->slave->temperature->afternoon->max', 
         'maxAfternoonTemperature'       => '$this->slave->temperature->afternoon->max', 
 
         'temperature'                   => '$this->slave->temperature->temperature', 
 
-        'minNightTemperature'           => '$this->slave->temperature->night->min', 
+        'minNightTemp'                  => '$this->slave->temperature->night->min', 
         'minNightTemperature'           => '$this->slave->temperature->night->min', 
 
-        'maxNightTemperature'           => '$this->slave->temperature->night->max', 
+        'maxNightTemp'                  => '$this->slave->temperature->night->max', 
         'maxNightTemperature'           => '$this->slave->temperature->night->max', 
 
         'uvMax'                         => '$this->slave->uv->max', 

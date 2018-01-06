@@ -1,7 +1,4 @@
 <?php
-require 'resources/header.html';
-
-
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -28,9 +25,12 @@ try {
     die();
 }
 
+/*-----------------------------*/
+
+require 'resources/header.html';
+
 echo 
 "<h2>$forecast->name / $forecast->state - $forecast->country</h2>";
-
 
 foreach ($forecast->data as $day) {
     echo 
@@ -67,8 +67,8 @@ foreach ($forecast->data as $day) {
                     Max: $day->maxHumidity%
                 </td>
                 <td>
-                    ".($day->probabilityOfPrecipitation ? 'Prob.: '.$day->probabilityOfPrecipitation.'% <br>' : '')."
-                    ".($day->precipitation ? 'Prec.: '.$day->precipitation.'mm' : '')."
+                    ".($day->probOfPrecip ? '<abbr title="Probability of precipitation">Prob.</abbr>: '.$day->probOfPrecip.'% <br>' : '')."
+                    ".($day->precip ? '<abbr title="Precipitation">Precip.</abbr>: '.$day->precip.'mm' : '')."
                 </td>
                 <td>
                     Min: $day->minWindVelocity km/h <br>
@@ -95,24 +95,24 @@ foreach ($forecast->data as $day) {
                 <td>
                     <img src=\"resources/images/$day->morningIcon.png\" /> <br>
                     
-                    <b class=\"temp-min\">$day->minMorningTemperature °C</b> - 
-                    <b class=\"temp-max\">$day->maxMorningTemperature °C</b> <br>
+                    <b class=\"temp-min\">$day->minMorningTemp °C</b> - 
+                    <b class=\"temp-max\">$day->maxMorningTemp °C</b> <br>
 
                     $day->morningText
                 </td>
                 <td>
                     <img src=\"resources/images/$day->afternoonIcon.png\" /> <br>
 
-                    <b class=\"temp-min\">$day->minAfternoonTemperature °C</b> - 
-                    <b class=\"temp-max\">$day->maxAfternoonTemperature °C</b> <br>
+                    <b class=\"temp-min\">$day->minAfternoonTemp °C</b> - 
+                    <b class=\"temp-max\">$day->maxAfternoonTemp °C</b> <br>
 
                     $day->afternoonText
                 </td>
                 <td>
                     <img src=\"resources/images/$day->nightIcon.png\" /> <br>
 
-                    <b class=\"temp-min\">$day->minNightTemperature °C</b> - 
-                    <b class=\"temp-max\">$day->maxNightTemperature °C</b> <br>
+                    <b class=\"temp-min\">$day->minNightTemp °C</b> - 
+                    <b class=\"temp-max\">$day->maxNightTemp °C</b> <br>
 
                     $day->nightText
                 </td>

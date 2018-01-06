@@ -1,7 +1,4 @@
 <?php
-require 'resources/header.html';
-
-
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -28,9 +25,12 @@ try {
     die();
 }
 
+/*-----------------------------*/
+
+require 'resources/header.html';
+
 echo 
 "<h2>$forecast->name / $forecast->state - $forecast->country</h2>";
-
 
 foreach ($forecast->data as $day) {
     echo 
