@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 3.2.0 - 2018-04-15
+## 3.1.0 - 2018-04-15
 
 ### Added
 Now it is possible to request the weather history of a city.
