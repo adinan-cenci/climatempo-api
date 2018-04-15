@@ -52,7 +52,7 @@ class Climatempo
             throw new \Exception($this->readErrorMessage($content), 1);            
         }
 
-        return new Forecast(json_decode($content), 'AdinanCenci\Climatempo\FifteenDays');        
+        return new Forecast(json_decode($content), 'AdinanCenci\Climatempo\FifteenDays');
     }
 
     public function seventyTwoHours($cityId) 
@@ -109,6 +109,22 @@ class Climatempo
         }
 
         return json_decode($content, true);
+    }
+
+    public function history($cityId, $from, $to = null) 
+    {
+        $url = 
+        'http://apiadvisor.climatempo.com.br/api/v1/history/locale/'.$cityId.'?from='.$from.
+        ($to ? '&to='.$to : '').
+        '&token='.$this->token;
+        
+        $content = $this->request($url, null, 'get', $httpCode);
+
+        if ($httpCode != 200) {
+            throw new \Exception($this->readErrorMessage($content), 1);            
+        }
+
+        return new Forecast(json_decode($content), 'AdinanCenci\Climatempo\History');
     }
 
     /**

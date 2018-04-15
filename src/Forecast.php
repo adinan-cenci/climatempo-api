@@ -13,6 +13,10 @@ class Forecast
         'days'              => '$this->slave->data', 
     );
 
+    /**
+     * @param \stdClass $slave
+     * @param string $wrapper Wrapper class
+     */
     public function __construct($slave, $wrapper) 
     {
         $this->slave = $slave;

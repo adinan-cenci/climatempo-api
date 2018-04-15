@@ -111,5 +111,4 @@ class FifteenDays
 
         return $this->__parentGet($key);
     }
-
 }

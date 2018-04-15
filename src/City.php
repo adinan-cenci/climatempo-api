@@ -62,4 +62,10 @@ class City
         $climatempo = new Climatempo($token);
         return $climatempo->current($this->id);
     }
+
+    public function history($token, $from, $to = null) 
+    {
+        $climatempo = new Climatempo($token);
+        return $climatempo->history($this->id, $from, $to);
+    }
 }
