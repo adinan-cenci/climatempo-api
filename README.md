@@ -107,12 +107,12 @@ foreach ($risk->data as $data) {
 
 Vai resultar em: 
 
-**-23.18400435255711 -46.28138759172782**
-Valor agora: 0
-Agora: 26 / Dec / 2019, 16:00:00
-
-Valor próxima hora: 0
-Próxima hora: 26 / Dec / 2019, 17:00:00
+**-23.18400435255711 -46.28138759172782**  
+Valor agora: 0  
+Agora: 26 / Dec / 2019, 16:00:00  
+  
+Valor próxima hora: 0  
+Próxima hora: 26 / Dec / 2019, 17:00:00  
 ___
 
 

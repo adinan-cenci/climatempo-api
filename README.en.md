@@ -109,12 +109,12 @@ foreach ($risk->data as $data) {
 
 Will result in:
 
-**-23.18400435255711 -46.28138759172782**
-Value now: 0
-Date now: 26 / Dec / 2019, 16:00:00
-
-Value next hour: 0
-Date next hour: 26 / Dec / 2019, 17:00:00
+**-23.18400435255711 -46.28138759172782**  
+Value now: 0  
+Date now: 26 / Dec / 2019, 16:00:00  
+  
+Value next hour: 0  
+Date next hour: 26 / Dec / 2019, 17:00:00  
 ___
 
 
