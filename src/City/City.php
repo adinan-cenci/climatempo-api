@@ -1,5 +1,6 @@
 <?php
-namespace AdinanCenci\Climatempo;
+namespace AdinanCenci\Climatempo\City;
+use AdinanCenci\Climatempo\Climatempo;
 
 class City 
 {
@@ -67,5 +68,11 @@ class City
     {
         $climatempo = new Climatempo($token);
         return $climatempo->history($this->id, $from, $to);
+    }
+
+    public function climateRain($token, $latitude = null, $longitude = null) 
+    {
+        $climatempo = new Climatempo($token);
+        return $climatempo->climateRain($this->id, $latitude, $longitude);
     }
 }

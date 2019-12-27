@@ -34,6 +34,10 @@
 
 namespace AdinanCenci\Climatempo;
 
+use AdinanCenci\Climatempo\Forecast\Forecast;
+use AdinanCenci\Climatempo\Weather\Weather;
+use AdinanCenci\Climatempo\Flood\Flood;
+
 class Climatempo
 {
     protected $token;
@@ -43,34 +47,42 @@ class Climatempo
         $this->token = $token;
     }
 
+    /****************************
+    ****      FORECAST
+    /***************************/
+
     public function fifteenDays($cityId) 
     {
         $url        = 'http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/'.$cityId.'/days/15?token='.$this->token;
-        $content    = $this->request($url, null, 'get', $httpCode);
+        $content    = $this->request($url, null, 'get', null, $httpCode);
 
         if ($httpCode != 200) {
             throw new \Exception($this->readErrorMessage($content), 1);            
         }
 
-        return new Forecast(json_decode($content), 'AdinanCenci\Climatempo\FifteenDays');
+        return new Forecast(json_decode($content), 'AdinanCenci\Climatempo\Forecast\FifteenDaysWrapper');
     }
 
     public function seventyTwoHours($cityId) 
     {
         $url        = 'http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/'.$cityId.'/hours/72?token='.$this->token;
-        $content    = $this->request($url, null, 'get', $httpCode);
+        $content    = $this->request($url, null, 'get', null, $httpCode);
 
         if ($httpCode != 200) {
             throw new \Exception($this->readErrorMessage($content), 1);            
         }
 
-        return new Forecast(json_decode($content), 'AdinanCenci\Climatempo\SeventyTwoHours');
+        return new Forecast(json_decode($content), 'AdinanCenci\Climatempo\Forecast\SeventyTwoHoursWrapper');
     }
+
+    /****************************
+    ****      WEATHER
+    /***************************/
 
     public function current($cityId) 
     {
         $url        = 'http://apiadvisor.climatempo.com.br/api/v1/weather/locale/'.$cityId.'/current?token='.$this->token;
-        $content    = $this->request($url, null, 'get', $httpCode);
+        $content    = $this->request($url, null, 'get', null, $httpCode);
 
         if ($httpCode != 200) {
             throw new \Exception($this->readErrorMessage($content), 1);            
@@ -79,10 +91,14 @@ class Climatempo
         return new Weather(json_decode($content));
     }
 
+    /****************************
+    ****      LOCALE
+    /***************************/
+
     public function getCityById($cityId) 
     {
         $url        = 'http://apiadvisor.climatempo.com.br/api/v1/locale/city/'.$cityId.'?token='.$this->token;
-        $content    = $this->request($url, null, 'get', $httpCode);
+        $content    = $this->request($url, null, 'get', null, $httpCode);
 
         if ($httpCode != 200) {
             throw new \Exception($this->readErrorMessage($content), 1);            
@@ -102,7 +118,7 @@ class Climatempo
         ($state ? '&state='.$state : '').
         '&token='.$this->token;
 
-        $content = $this->request($url, null, 'get', $httpCode);
+        $content = $this->request($url, null, 'get', null, $httpCode);
 
         if ($httpCode != 200) {
             throw new \Exception($this->readErrorMessage($content), 1);            
@@ -111,6 +127,10 @@ class Climatempo
         return json_decode($content, true);
     }
 
+    /****************************
+    ****      History
+    /***************************/
+
     public function history($cityId, $from, $to = null) 
     {
         $url = 
@@ -118,14 +138,114 @@ class Climatempo
         ($to ? '&to='.$to : '').
         '&token='.$this->token;
         
-        $content = $this->request($url, null, 'get', $httpCode);
+        $content = $this->request($url, null, 'get', null, $httpCode);
 
         if ($httpCode != 200) {
-            throw new \Exception($this->readErrorMessage($content), 1);            
+            throw new \Exception($this->readErrorMessage($content), 1);
         }
 
-        return new Forecast(json_decode($content), 'AdinanCenci\Climatempo\History');
+        return new Forecast(json_decode($content), 'AdinanCenci\Climatempo\History\History');
     }
+
+    /****************************
+    ****      CLIMATE
+    /***************************/
+
+    public function climateRain($cityId, $latitude = null, $longitude = null) 
+    {
+        $url = 
+        'http://apiadvisor.climatempo.com.br/api/v1/climate/rain/locale/'.$cityId.'?'.
+        ($latitude ? '&latitude='.$latitude : '').
+        ($longitude ? '&longitude='.$longitude : '').
+        ($latitude || $longitude ? '&' : '').'token='.$this->token;
+
+        $content = $this->request($url, null, 'get', null, $httpCode);
+
+        if ($httpCode != 200) {
+            throw new \Exception($this->readErrorMessage($content), 1);
+        }
+
+        return new Forecast(json_decode($content), 'AdinanCenci\Climatempo\ClimateRain');
+    }
+
+    public function climateTemperature($cityId, $latitude = null, $longitude = null) 
+    {
+        $url = 
+        'http://apiadvisor.climatempo.com.br/api/v1/climate/temperature/locale/'.$cityId.'?'.
+        ($latitude ? '&latitude='.$latitude : '').
+        ($longitude ? '&longitude='.$longitude : '').
+        ($latitude || $longitude ? '&' : '').'token='.$this->token;
+
+        $content = $this->request($url, null, 'get', null, $httpCode);
+
+        if ($httpCode != 200) {
+            throw new \Exception($this->readErrorMessage($content), 1);
+        }
+
+        return new Forecast(json_decode($content), 'AdinanCenci\Climatempo\ClimateTemperature');
+    }
+
+    /****************************
+    ****      FLOODING
+    /***************************/
+
+    public function floodingRisk($latitude, $longitude) 
+    {
+        $url = 
+        'http://apiadvisor.climatempo.com.br/api/v1/flood/risk?'.
+        'latitude='.$latitude.
+        '&longitude='.$longitude.
+        'token='.$this->token;
+
+        $content = $this->request($url, null, 'get', null, $httpCode);
+        
+        if ($httpCode != 200) {
+            throw new \Exception($this->readErrorMessage($content), 1);
+        }
+
+        return new Flood(json_decode($content), 'AdinanCenci\Climatempo\Flood\FloodRiskWrapper');
+    }
+
+    /****************************
+    ****      INDEX
+    /***************************/
+
+    public function mosquitoProliferation($cityId) 
+    {
+        $url = 
+        'http://apiadvisor.climatempo.com.br/v1/index/mosquito/locale/'.$cityId.'/days/?'.
+        'token='.$this->token;
+
+        $content = $this->request($url, null, 'get', null, $httpCode);
+
+        if ($httpCode != 200) {
+            throw new \Exception($this->readErrorMessage($content), 1);
+        }
+
+        return new Forecast(json_decode($content), 'AdinanCenci\Climatempo\MosquitoProliferation');
+    }
+
+    /*-----------------------------*/
+
+    public function addLocalesToToken($locales) 
+    {
+        $url = 
+        'http://apiadvisor.climatempo.com.br/api-manager/user-token/'.$this->token.'/locales';
+
+        $locales = (array) $locales;
+
+        $content = $this->request($url, array('localeId' => $locales), 'put', array('Content-Type: application/x-www-form-urlencoded'), $httpCode);
+        
+        if ($httpCode != 200) {
+            throw new \Exception($this->readErrorMessage($content), 1);
+        }
+
+        $json = json_decode($content, true);
+
+        return $json['locales'];
+    }
+
+    /*-----------------------------*/
 
     /**
      * @param string $url
@@ -134,24 +254,28 @@ class Climatempo
      * @param int $httpCode Will return the request code
      * @return string
      */
-    protected function request($url, $data = null, $method = 'get', &$httpCode = null) 
+    protected function request($url, $data = null, $method = 'get', $headers = array(), &$httpCode = null) 
     {
         $method     = strtolower($method);
-
         $ch         = curl_init();
+
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-        if ($method == 'post') {
-            curl_setopt($ch, CURLOPT_POST, 1);
+        switch ($method) {
+            case 'post':
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+                break;            
+            case 'put':
+                //curl_setopt($ch, CURLOPT_PUT, 1);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+                break;
         }
 
-        if ($data and is_array($data)) {
-            $data = http_build_query($data);
-        }
-
-        if ($method == 'post' and $data) {            
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        if ($headers) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         }
 
         $content    = curl_exec($ch);

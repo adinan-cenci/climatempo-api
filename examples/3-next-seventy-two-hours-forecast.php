@@ -4,10 +4,7 @@ ini_set('display_errors', 1);
 
 /*-----------------------------*/
 
-require '../src/Climatempo.php';
-require '../src/Wrapper.php';
-require '../src/Forecast.php';
-require '../src/SeventyTwoHours.php';
+require '../vendor/autoload.php';
 
 use AdinanCenci\Climatempo\Climatempo;
 

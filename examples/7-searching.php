@@ -4,10 +4,9 @@ ini_set('display_errors', 1);
 
 /*-----------------------------*/
 
-require '../src/Search.php';
-require '../src/City.php';
+require '../vendor/autoload.php';
 
-use AdinanCenci\Climatempo\Search;
+use AdinanCenci\Climatempo\City\Search;
 
 /*-----------------------------*/
 
@@ -52,7 +51,7 @@ $search->ids(7717, 6809, 3982, 7544, 7564, 8050, 8173, 8284, 6861, 6867, 7615, 6
 
 $results = $search->find();
 foreach ($results as $city) {
-    echo "$city->state: $city->name<br>";
+    echo "$city->id: $city->name / $city->state<br>";
 }
 
 require 'resources/footer.html';

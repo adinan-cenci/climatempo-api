@@ -1,7 +1,8 @@
 <?php
-namespace AdinanCenci\Climatempo;
+namespace AdinanCenci\Climatempo\Forecast;
+use AdinanCenci\Climatempo\Wrapper;
 
-class FifteenDays 
+class FifteenDaysWrapper 
 {
     protected $slave;
 

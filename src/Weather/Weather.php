@@ -1,5 +1,6 @@
 <?php
-namespace AdinanCenci\Climatempo;
+namespace AdinanCenci\Climatempo\Weather;
+use AdinanCenci\Climatempo\Wrapper;
 
 class Weather 
 {

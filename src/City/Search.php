@@ -1,6 +1,5 @@
 <?php
-
-namespace AdinanCenci\Climatempo;
+namespace AdinanCenci\Climatempo\City;
 
 class Search 
 {

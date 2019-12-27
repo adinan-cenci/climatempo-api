@@ -1,5 +1,5 @@
 <?php
-namespace AdinanCenci\Climatempo;
+namespace AdinanCenci\Climatempo\History;
 
 class History 
 {

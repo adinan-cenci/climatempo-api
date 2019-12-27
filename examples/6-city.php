@@ -4,18 +4,13 @@ ini_set('display_errors', 1);
 
 /*-----------------------------*/
 
-require '../src/Climatempo.php';
-require '../src/Wrapper.php';
-require '../src/Forecast.php';
-require '../src/FifteenDays.php';
-require '../src/Search.php';
-require '../src/City.php';
+require '../vendor/autoload.php';
 
-use AdinanCenci\Climatempo\Search;
+use AdinanCenci\Climatempo\City\Search;
 
 /*-----------------------------*/
 
-$token  = 'insert-your-token-here';
+$token      = 'insert-your-token-here';
 $search = new Search('belo horizonte');
 $bh     = $search->find()[0];
 

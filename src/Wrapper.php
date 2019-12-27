@@ -4,7 +4,7 @@ namespace AdinanCenci\Climatempo;
 /**
  * This trait will be used to wrap stdClass objects.
  * The json returned by the API is way too nested, so this trait 
- * will allow us to create shortcuts to the properties without 
+ * will allow us to create shorhands to the properties without 
  * deforming the data.
  */
 trait Wrapper 
