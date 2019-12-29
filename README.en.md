@@ -112,7 +112,7 @@ Will result in:
 **-23.18400435255711 -46.28138759172782**  
 Value now: 0  
 Date now: 26 / Dec / 2019, 16:00:00  
-  
+
 Value next hour: 0  
 Date next hour: 26 / Dec / 2019, 17:00:00  
 ___
@@ -126,7 +126,7 @@ But you can easily use the Search class to find the city you are looking for.
 Let's say we want the forecast for Rio de Janeiro - RJ:
 
 ```php
-use AdinanCenci\Climatempo\Search;
+use AdinanCenci\Climatempo\City\Search;
 
 $searching     = new Search();
 $searching->name('rio de janeiro');
@@ -153,7 +153,7 @@ Speaking about searching, the Search class allow us to narrow down to the state.
 The example below will search for all the cities with "rio" in it's name, inside the Rio de Janeiro state.
 
 ```php
-use AdinanCenci\Climatempo\Search;
+use AdinanCenci\Climatempo\City\Search;
 
 $searching = new Search();
 $searching
